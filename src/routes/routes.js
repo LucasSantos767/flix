@@ -15,8 +15,8 @@ import Upgrade from 'src/pages/Upgrade.vue'
 const routes = [
   {
     path: '/',
-    component: DashboardLayout,
-    redirect: '/admin/overview'
+    component: ()=> import('../pages/Login/Login.vue'),
+
   },
   {
     path: '/admin',

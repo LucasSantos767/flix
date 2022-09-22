@@ -1,37 +1,66 @@
 <template>
   <div class="d-flex justify-content-center main">
     <div class="backF">
-      <form>
+      <form method="post" @submit.prevent="Login">
         <div class="d-flex align-items-center justify-content-center aa">
           <p class="titlelogin">ADMIN</p>
           <user-icon size="3x" class="custom-class user"></user-icon>
         </div>
         <div>
-          <form-group class="inputPosition loginInfo">
-            <input type="email" class="input" placeholder="exemplo: admin@gmail.com" />
-           <mail-icon size="1.5x" class="custom-class lock"></mail-icon>
-          </form-group>
-          <form-group class="inputPosition loginInfo">
-            <input type="password" class="input" placeholder="exemplo: senha" />
+          <div class="inputPosition loginInfo">
+            <input
+              type="email"
+              class="input"
+              placeholder="exemplo: admin@gmail.com"
+              v-model="usuario.email"
+            />
+            <mail-icon size="1.5x" class="custom-class lock"></mail-icon>
+          </div>
+          <div class="inputPosition loginInfo">
+            <input
+              type="password"
+              class="input"
+              placeholder="exemplo: senha"
+              v-model="usuario.password"
+            />
             <lock-icon size="1.5x" class="custom-class lock"></lock-icon>
-          </form-group>
+          </div>
         </div>
-         <div class="btn pt-4">
-          <button type="submit" class="custom-class"
-            >Login</button>
+        <div class="btn pt-4">
+          <button type="submit" class="custom-class">Login</button>
         </div>
       </form>
     </div>
   </div>
 </template>
 <script>
-import { UserIcon, MailIcon, LockIcon,ArrowRightIcon } from "vue-feather-icons";
+import {
+  UserIcon,
+  MailIcon,
+  LockIcon,
+  ArrowRightIcon,
+} from "vue-feather-icons";
 export default {
+  data() {
+    return {
+      usuario: {
+        email: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    Login() {
+      this.$store.dispatch('Login', this.usuario).then(()=>{
+        this.$router.push({ name: "Overview" })
+      })
+    },
+  },
   components: {
     UserIcon,
     MailIcon,
     LockIcon,
-    ArrowRightIcon
+    ArrowRightIcon,
   },
 };
 </script>
@@ -57,7 +86,7 @@ export default {
   color: white;
   font-size: 25px;
   padding-top: 27%;
-   margin-left: -5%;
+  margin-left: -5%;
 }
 .email {
   width: 44px;
@@ -66,8 +95,7 @@ export default {
   top: 15%;
   background-color: white;
   position: absolute;
-  border-right: solid 2px #000
-  ;
+  border-right: solid 2px #000;
   color: #000;
 }
 .lock {
@@ -105,7 +133,8 @@ export default {
 .inputPosition {
   position: relative;
 }
-.loginInfo input[type = email],input[type = password]{
-    padding-left: 50px;
+.loginInfo input[type="email"],
+input[type="password"] {
+  padding-left: 50px;
 }
 </style>

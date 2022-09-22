@@ -14,6 +14,8 @@
 
  */
 import Vue from 'vue'
+import { http } from "@/services/api";
+import store  from './store/index.js';
 import VueRouter from 'vue-router'
 import App from './App.vue'
 // LightBootstrap plugin
@@ -44,5 +46,6 @@ const router = new VueRouter({
 new Vue({
   el: '#app',
   render: h => h(App),
-  router
+  router,
+  store
 })

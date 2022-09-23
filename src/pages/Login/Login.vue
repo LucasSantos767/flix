@@ -26,8 +26,8 @@
             <lock-icon size="1.5x" class="custom-class lock"></lock-icon>
           </div>
         </div>
-        <div class="btn pt-4">
-          <button type="submit" class="custom-class">Login</button>
+        <div class="butao pt-4">
+          <button type="submit" class="btn-login custom-class">Login</button>
         </div>
       </form>
     </div>
@@ -111,9 +111,26 @@ export default {
 .aa {
   padding-top: 23%;
 }
-.btn {
+.butao {
   width: 40%;
-  margin-left: 28%;
+  margin-left: 30%;
+}
+.btn-login{
+  width: 100%;
+  color: white;
+  background-color: rgb(22, 19, 19);
+  border-color: whitesmoke;
+  border-radius:10px ;
+}
+.btn-login:hover{
+  width: 100%;
+  color: #000;
+  background-color: #000;
+  border-color: rgb(22, 19, 19);
+  border-radius:10px ;
+}
+.btn-login:hover{
+  background-color: whitesmoke;
 }
 .input {
   display: flex;

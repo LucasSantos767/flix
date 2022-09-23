@@ -14,6 +14,9 @@ export default new Vuex.Store({
     USUARIO_LOGADO(state, { token }) {
       state.token = token
     },
+    DESLOGAR_USUARIO(state){
+      state.token = null
+    }
   },
   actions: {
     Login({ commit }, usuario) {

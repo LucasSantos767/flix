@@ -3,8 +3,7 @@
     <div class="backF">
       <form method="post" @submit.prevent="Login">
         <div class="d-flex align-items-center justify-content-center aa">
-          <p class="titlelogin">ADMIN</p>
-          <user-icon size="3x" class="custom-class user"></user-icon>
+          <p class="titlelogin">ADMIN || TALLOSFLIX</p>
         </div>
         <div>
           <div class="inputPosition loginInfo">
@@ -27,7 +26,8 @@
           </div>
         </div>
         <div class="butao pt-4">
-          <button type="submit" class="btn-login custom-class">Login</button>
+          <button type="submit" class="btn-login custom-class">Login <log-in-icon size="1.5x" class="custom-class"/></button>
+           
         </div>
       </form>
     </div>
@@ -39,6 +39,7 @@ import {
   MailIcon,
   LockIcon,
   ArrowRightIcon,
+  LogInIcon
 } from "vue-feather-icons";
 export default {
   data() {
@@ -61,6 +62,7 @@ export default {
     MailIcon,
     LockIcon,
     ArrowRightIcon,
+    LogInIcon
   },
 };
 </script>
@@ -71,22 +73,18 @@ export default {
   width: 100vw;
   background-color: #110729;
   background-repeat: no-repeat;
-  background-image: url("../../../documentation/img/back.jpg");
+  background-image: url("../../../public/img/cinema.jpg");
   background-size: 100%;
 }
 .backF {
   width: 30%;
   background-color: rgba(32, 31, 31, 0.836);
 }
-.user {
-  color: white;
-  margin-left: -17%;
-}
 .titlelogin {
   color: white;
   font-size: 25px;
-  padding-top: 27%;
-  margin-left: -5%;
+  padding-top: 10%;
+  padding-bottom: 10%;
 }
 .email {
   width: 44px;
@@ -113,13 +111,13 @@ export default {
 }
 .butao {
   width: 40%;
-  margin-left: 30%;
+  margin-left: 29%;
 }
 .btn-login{
   width: 100%;
   color: white;
   background-color: rgb(22, 19, 19);
-  border-color: whitesmoke;
+  border: 1.5px solid whitesmoke;
   border-radius:10px ;
 }
 .btn-login:hover{

@@ -54,8 +54,8 @@
             <div class="divider"></div>
             <a class="dropdown-item" href="#">Separated link</a>
           </base-dropdown>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
+          <li class="nav-item" @click="efetuarLogout">
+            <a href="/" class="nav-link">
               Log out
             </a>
           </li>
@@ -92,7 +92,11 @@
       },
       hideSidebar () {
         this.$sidebar.displaySidebar(false)
-      }
+      },
+      efetuarLogout() {
+      this.$store.commit("DESLOGAR_USUARIO");
+      this.$router.push({ name: "login" });
+    },
     }
   }
 

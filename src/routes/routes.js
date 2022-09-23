@@ -6,7 +6,7 @@ import NotFound from '../pages/NotFoundPage.vue'
 import Overview from 'src/pages/Overview.vue'
 import UserProfile from 'src/pages/UserProfile.vue'
 import TableList from 'src/pages/TableList.vue'
-import Typography from 'src/pages/Typography.vue'
+import RelatoriosComments from 'src/pages/Relatorios/Comments.vue'
 import Icons from 'src/pages/Icons.vue'
 import Maps from 'src/pages/Maps.vue'
 import Notifications from 'src/pages/Notifications.vue'
@@ -15,8 +15,9 @@ import Upgrade from 'src/pages/Upgrade.vue'
 const routes = [
   {
     path: '/',
-    component: DashboardLayout,
-    redirect: '/admin/overview'
+    name:'login',
+    component: ()=> import('../pages/Login/Login.vue'),
+
   },
   {
     path: '/admin',
@@ -41,7 +42,7 @@ const routes = [
       {
         path: 'typography',
         name: 'Typography',
-        component: Typography
+        component: RelatoriosComments
       },
       {
         path: 'icons',

@@ -43,7 +43,7 @@
     props: {
       title: {
         type: String,
-        default: 'Vue LBD'
+        default: 'TallosFlix'
       },
       backgroundColor: {
         type: String,
@@ -52,10 +52,6 @@
           let acceptedValues = ['', 'blue', 'azure', 'green', 'orange', 'red', 'purple', 'black']
           return acceptedValues.indexOf(value) !== -1
         }
-      },
-      backgroundImage: {
-        type: String,
-        default: 'img/sidebar-5.jpg'
       },
       activeColor: {
         type: String,

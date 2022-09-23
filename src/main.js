@@ -31,6 +31,7 @@ Vue.use(LightBootstrap)
 
 // configure router
 const router = new VueRouter({
+  mode: 'history',
   routes, // short for routes: routes
   linkActiveClass: 'nav-item active',
   scrollBehavior: (to) => {
@@ -41,7 +42,16 @@ const router = new VueRouter({
     }
   }
 })
+router.beforeEach((routeTo, routeFrom, next) => {
+  let loginRequired = routeTo.matched.some((ruta) => ruta.meta.requireAuth);
+  if (!loginRequired && !store.state.token) {
 
+    return routeTo.path == '/' ? next() : next({
+      path: '/'
+    });
+  }
+  next();
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -5,6 +5,7 @@ import NotFound from '../pages/NotFoundPage.vue'
 // Admin pages
 import Overview from 'src/pages/Overview.vue'
 import UserProfile from 'src/pages/UserProfile.vue'
+import Usuarios from 'src/pages/Usuarios/index.vue'
 import TableList from 'src/pages/TableList.vue'
 import RelatoriosComments from 'src/pages/Relatorios/Comments.vue'
 import Icons from 'src/pages/Icons.vue'
@@ -32,7 +33,7 @@ const routes = [
       {
         path: 'user',
         name: 'User',
-        component: UserProfile
+        component: Usuarios
       },
       {
         path: 'table-list',

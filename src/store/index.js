@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import createPersistedState from "vuex-persistedstate";
 import Vuex from 'vuex'
 import { http } from '../services/api.js'
 Vue.use(Vuex)
@@ -34,8 +35,15 @@ export default new Vuex.Store({
           })
       })
     },
+    getUsers() {
+      return new Promise((resolve, reject) => {
+        http.get(`/users/list`)
+        .then(response => resolve(response))
+        .catch(error => reject(error))
+      })
+    },
   },
   modules: {
   },
-  plugins: [],
+  plugins: [createPersistedState()],
 })

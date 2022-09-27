@@ -15,17 +15,24 @@
  */
 import Vue from 'vue'
 import { http } from "@/services/api";
+import { BootstrapVue, IconsPlugin, BootstrapVueIcons
+ } from 'bootstrap-vue'
 import store  from './store/index.js';
 import VueRouter from 'vue-router'
 import App from './App.vue'
 // LightBootstrap plugin
 import LightBootstrap from './light-bootstrap-main'
-
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 // router setup
 import routes from './routes/routes'
 
 import './registerServiceWorker'
 // plugin setup
+Vue.config.productionTip = false
+Vue.prototype.$http = http
+Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
 Vue.use(VueRouter)
 Vue.use(LightBootstrap)
 

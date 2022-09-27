@@ -20,7 +20,9 @@
           :clearable="false"
           class="per-page-selector d-inline-block mx-50 input inputselect"
         />
-        <b-button @click.prevent="ModalCreate()" class="butao">Adicionar</b-button>
+        <b-button @click.prevent="ModalCreate()" class="butao"
+          >Adicionar</b-button
+        >
         <b-form-input
           debounce="300"
           v-model="search"
@@ -44,6 +46,26 @@
         bordered
         hover
       >
+        <template #head(name)="data">
+          <span class="d-flex justify-content-center">{{
+            data.label.toUpperCase()
+          }}</span>
+        </template>
+        <template #head(email)="data">
+          <span class="d-flex justify-content-center">{{
+            data.label.toUpperCase()
+          }}</span>
+        </template>
+        <template #head(_id)="data">
+          <span class="d-flex justify-content-center">{{
+            data.label.toUpperCase()
+          }}</span>
+        </template>
+        <template #head(actions)="data">
+          <span class="d-flex justify-content-center">{{
+            data.label.toUpperCase()
+          }}</span>
+        </template>
         <template v-slot:cell(actions)="data">
           <b-dropdown variant="link" no-caret class="iconp">
             <template #button-content>
@@ -193,29 +215,34 @@
 <style scoped>
 .divTable {
   width: 90%;
-  height: 100vh;
+  height: 100%;
   margin-left: 4%;
   margin-top: 1%;
   border-radius: 10px;
 }
-.input {
-  width: 30%;
-}
 .pesquisa {
-  width: 20%;
-  margin-left: 57%;
+  width: 40%;
+  margin-left: 1%;
 }
 .inputselect {
-  width: 15%;
+  width: 8%;
+  margin-left: -70%;
 }
 .listagem {
   width: 100%;
   margin-top: 10px;
-  padding-right: 6px;
   color: #110729;
 }
 .inputselect {
-  margin-right: 100px;
+  margin-right: 28%;
+}
+.butao {
+  height: 40px;
+  font-size: 15px;
+  left: 10px;
+}
+.infoTable {
+  padding-bottom: 15px;
 }
 </style>
 <script>
@@ -244,15 +271,21 @@ export default {
           key: "name",
           label: "NOME",
           sortable: true,
+          thClass: "text-center",
+          tdClass: "text-center",
         },
         {
           key: "email",
           label: "EMAIL",
           sortable: true,
+          thClass: "text-center",
+          tdClass: "text-center",
         },
         {
           key: "actions",
           label: "AÇÕES",
+          thClass: "text-center",
+          tdClass: "text-center",
         },
       ],
     };

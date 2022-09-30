@@ -12,7 +12,7 @@
       >
         <p class="listagem">
           <b-icon icon="person-bounding-box" />
-          Lista de Usuários
+          Lista de Filmes
         </p>
         <b-form-select
           v-model="perPage"
@@ -24,7 +24,7 @@
           >Adicionar</b-button
         >
         <b-form-input
-          debounce="300"
+          debounce="600"
           v-model="search"
           class="pesquisa h-75 input shadow-none"
           placeholder="Pesquisar"
@@ -32,7 +32,7 @@
       </div>
       <b-table
         :fields="filds"
-        :items="usuarios"
+        :items="sessions"
         :per-page="perPage"
         :current-page="currentPage"
         :filter="search"
@@ -45,18 +45,24 @@
         borderless
         bordered
         hover
+        responsive
       >
         <template #head(name)="data">
           <span class="d-flex justify-content-center">{{
             data.label.toUpperCase()
           }}</span>
         </template>
-        <template #head(email)="data">
+        <template #head(title)="data">
           <span class="d-flex justify-content-center">{{
             data.label.toUpperCase()
           }}</span>
         </template>
-        <template #head(_id)="data">
+        <template #head(year)="data">
+          <span class="d-flex justify-content-center">{{
+            data.label.toUpperCase()
+          }}</span>
+        </template>
+        <template #head(plot)="data">
           <span class="d-flex justify-content-center">{{
             data.label.toUpperCase()
           }}</span>
@@ -66,6 +72,12 @@
             data.label.toUpperCase()
           }}</span>
         </template>
+        <template #cell(plot)="data">
+        <b-card-text class="styleInfo">
+          {{data.item.plot}}
+        </b-card-text>
+      </template>
+
         <template v-slot:cell(actions)="data">
           <b-dropdown variant="link" no-caret class="iconp">
             <template #button-content>
@@ -81,6 +93,16 @@
               <span class="align-middle ml-50">Deletar</span>
             </b-dropdown-item>
           </b-dropdown>
+        </template>
+        <template v-slot:cell(detalhes)="data">
+          <b-button
+            variant="link"
+            no-caret
+            class="iconp"
+            @click.prevent="ModalVisu(data.item)"
+          >
+            <b-icon icon="eye-fill" />
+          </b-button>
         </template>
       </b-table>
       <b-pagination
@@ -108,24 +130,24 @@
         hide-header-close
         header-text-variant="light"
         header-bg-variant="dark"
-        title="Editar Funcionário"
+        title="Editar Filme"
       >
         <b-form>
           <b-form-group class="pb-3 InputPosition">
-            <p class="sub">Nome</p>
+            <p class="sub">Titulo</p>
             <b-input
               type="text"
               class="inputEdit shadow-none"
-              v-model="conteudotable.name"
+              v-model="conteudotable.title"
             />
           </b-form-group>
           <b-form-group class="pb-3 InputPosition">
-            <p class="sub">Email</p>
+            <p class="sub">Descrição</p>
             <b-input
               type="email"
               id="email"
               class="inputEdit shadow-none"
-              v-model="conteudotable.email"
+              v-model="conteudotable.plot"
             />
           </b-form-group>
           <b-form-group class="pb-3 InputPosition">
@@ -133,7 +155,7 @@
             <b-input
               type="password"
               class="inputEdit shadow-none"
-              v-model="conteudotable.password"
+              v-model="conteudotable.year"
             />
           </b-form-group>
           <div class="d-flex justify-content-between btn-size">
@@ -209,6 +231,60 @@
           </div>
         </b-form>
       </b-modal>
+      <b-modal
+        id="modal-visualizar"
+        hide-footer
+        hide-header-close
+        header-text-variant="light"
+        header-bg-variant="dark"
+        title="Visualizar Filme"
+        size="lg"
+      >
+        <b-card no-body class="overflow-hidden teste">
+          <b-row no-gutters>
+            <b-col md="6">
+              <b-card-img
+                :src="conteudotable.poster"
+                alt="Image"
+                class="rounded-0"
+              ></b-card-img>
+            </b-col>
+            <b-col md="6">
+              <b-card-body>
+                <b-card-title>{{ conteudotable.title }}</b-card-title>
+                <b-card-sub-title>{{ conteudotable.year }}</b-card-sub-title>
+                <b-card-text>
+                  {{ conteudotable.plot }}
+                </b-card-text>
+                Genêros:
+                <b-card-text class="d-flex genres">
+                  <b-card-sub-title
+                    v-for="(item, index) of conteudotable.genres"
+                    :key="index"
+                  >
+                    {{ item }}
+                  </b-card-sub-title>
+                </b-card-text>
+                Elenco:
+                <b-card-text class="d-flex genres">
+                  <b-card-sub-title
+                    v-for="(item, index) of conteudotable.cast"
+                    :key="index"
+                  >
+                    {{ item }}
+                  </b-card-sub-title>
+                </b-card-text>
+                Rating:
+                <b-card-text class="d-flex genres">    
+                  <b-card-sub-title>
+                     {{ conteudotable.imdb ? conteudotable.imdb.rating : 'Sem Avaliação' }} <b-icon icon="star" />
+                  </b-card-sub-title>
+                </b-card-text>
+              </b-card-body>
+            </b-col>
+          </b-row>
+        </b-card>
+      </b-modal>
     </div>
   </div>
 </template>
@@ -226,7 +302,7 @@
 }
 .inputselect {
   width: 8%;
-  margin-left: -70%;
+  margin-left: -80%;
 }
 .listagem {
   width: 100%;
@@ -240,16 +316,26 @@
   height: 40px;
   font-size: 15px;
   left: 10px;
+  border: 2px solid #8888;
 }
 .infoTable {
   padding-bottom: 15px;
 }
-.butao {
-  height: 40px;
-  font-size: 15px;
-  left: 10px;
-  border: 2px solid #8888;
+.genres {
+  margin-top: -5px;
+  gap: 10px;
 }
+.teste {
+  height: 100%;
+  width: 100%;
+}
+.styleInfo {
+  max-width: 50ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 </style>
 <script>
 import { http } from "../../services/api.js";
@@ -258,7 +344,7 @@ import { BTable } from "bootstrap-vue";
 export default {
   data() {
     return {
-      usuarios: [],
+      sessions: [],
       usuario: {},
       conteudotable: {},
       perPage: 5,
@@ -267,22 +353,22 @@ export default {
       search: null,
       filds: [
         {
-          key: "_id",
-          label: "ID",
+          key: "title",
+          label: "Titulo",
           sortable: true,
           thClass: "text-center",
-          tdClass: "text-center",
+          tdClass: "text-center w-25",
         },
         {
-          key: "name",
-          label: "NOME",
+          key: "plot",
+          label: "Descrição",
           sortable: true,
           thClass: "text-center",
-          tdClass: "text-center",
+          tdClass: "text-center w-25",
         },
         {
-          key: "email",
-          label: "EMAIL",
+          key: "year",
+          label: "Data de Lançamento",
           sortable: true,
           thClass: "text-center",
           tdClass: "text-center",
@@ -293,12 +379,18 @@ export default {
           thClass: "text-center",
           tdClass: "text-center",
         },
+        {
+          key: "detalhes",
+          label: "Detalhes",
+          thClass: "text-center",
+          tdClass: "text-center",
+        },
       ],
     };
   },
   computed: {
     totalrows() {
-      return this.usuarios.length;
+      return this.sessions.length;
     },
   },
   created() {
@@ -307,8 +399,8 @@ export default {
   methods: {
     async Lista() {
       await http
-        .get("/users/list")
-        .then((response) => (this.usuarios = response.data));
+        .get("/movies/list")
+        .then((response) => (this.sessions = response.data));
     },
     Editar() {
       this.$http
@@ -318,20 +410,14 @@ export default {
           this.usuarios = [];
           this.Lista();
         })
-        .catch((erro) => {
-          if (erro.request.status == 500) {
-            this.$toast(`falta dados na requisição.`, {
-              type: "info",
-            });
-          }
-        });
+        .catch((erro) => { });
     },
     Deletar() {
       this.$http
-        .delete(`/users/delete/${this.conteudotable._id}`)
+        .delete(`/movies/delete/${this.conteudotable._id}`)
         .then((response) => {
           this.$bvModal.hide("modal-danger");
-          this.usuarios = [];
+          this.sessions = [];
           this.Lista();
         })
         .catch((erro) => console.log(erro));
@@ -341,11 +427,11 @@ export default {
         .post("/users/create", this.usuario)
         .then((response) => {
           this.$bvModal.hide("modal-create");
-          this.usuarios = [];
+          this.sessions = [];
           this.Lista();
-          this.usuario.name = null;
-          this.usuario.email = null;
-          this.usuario.password = null;
+          this.sessions.name = null;
+          this.sessions.email = null;
+          this.sessions.password = null;
         })
         .catch((erro) => console.log(erro));
     },
@@ -353,20 +439,26 @@ export default {
       this.$bvModal.hide("modal-login");
       this.$bvModal.hide("modal-danger");
       this.$bvModal.hide("modal-create");
+      this.$bvModal.hide("modal-visualizar");
     },
-    ModalEdit(usuarios) {
+    ModalEdit(sessions) {
       this.conteudotable = {
-        ...usuarios,
-        password: undefined,
+        ...sessions,
       };
       this.$bvModal.show("modal-login");
+    },
+    ModalVisu(sessions) {
+      this.conteudotable = {
+        ...sessions,
+      };
+      this.$bvModal.show("modal-visualizar");
     },
     ModalCreate(usuarios) {
       this.$bvModal.show("modal-create");
     },
-    ModalConfirm(usuarios) {
+    ModalConfirm(sessions) {
       this.conteudotable = {
-        ...usuarios,
+        ...sessions,
       };
       this.$bvModal.show("modal-danger");
     },

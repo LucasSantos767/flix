@@ -277,6 +277,7 @@
         </div>
       </b-modal>
       <b-modal
+        @show="resetModal"
         id="modal-create"
         hide-footer
         hide-header-close
@@ -655,6 +656,9 @@ export default {
         ...sessions,
       };
       this.$bvModal.show("modal-visualizar");
+    },
+    resetModal(){
+      this.filme = {}
     },
     ModalCreate(usuarios) {
       this.$bvModal.show("modal-create");

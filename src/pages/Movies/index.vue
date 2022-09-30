@@ -73,10 +73,10 @@
           }}</span>
         </template>
         <template #cell(plot)="data">
-        <b-card-text class="styleInfo">
-          {{data.item.plot}}
-        </b-card-text>
-      </template>
+          <b-card-text class="styleInfo">
+            {{ data.item.plot }}
+          </b-card-text>
+        </template>
 
         <template v-slot:cell(actions)="data">
           <b-dropdown variant="link" no-caret class="iconp">
@@ -130,10 +130,10 @@
         hide-header-close
         header-text-variant="light"
         header-bg-variant="dark"
-        title="Editar Filme"
+        title="Adicionar Filme"
       >
         <b-form>
-          <b-form-group class="pb-3 InputPosition">
+          <b-form-group class="InputPosition">
             <p class="sub">Titulo</p>
             <b-input
               type="text"
@@ -141,21 +141,110 @@
               v-model="conteudotable.title"
             />
           </b-form-group>
-          <b-form-group class="pb-3 InputPosition">
+          <b-form-group class="InputPosition">
             <p class="sub">Descrição</p>
             <b-input
-              type="email"
-              id="email"
+              type="text"
               class="inputEdit shadow-none"
               v-model="conteudotable.plot"
             />
           </b-form-group>
-          <b-form-group class="pb-3 InputPosition">
-            <p class="sub">Senha</p>
+          <b-form-group class="InputPosition">
+            <p class="sub">Data de Lançamento</p>
             <b-input
-              type="password"
+              type="number"
               class="inputEdit shadow-none"
               v-model="conteudotable.year"
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Poster</p>
+            <b-input
+              type="text"
+              class="inputEdit shadow-none"
+              v-model="conteudotable.poster"
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Genêros</p>
+            <b-form-tags
+              type="text"
+              class="inputEdit shadow-none"
+              v-model="conteudotable.genres"
+              placeholder=" "
+              remove-on-delete
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Elenco</p>
+            <b-form-tags
+              type="text"
+              class="inputEdit shadow-none"
+              placeholder=" "
+              v-model="conteudotable.cast"
+              remove-on-delete
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">País</p>
+            <b-form-tags
+              type="text"
+              class="inputEdit shadow-none"
+              placeholder=" "
+              v-model="conteudotable.countries"
+              remove-on-delete
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Diretores</p>
+            <b-form-tags
+              type="text"
+              class="inputEdit shadow-none"
+              placeholder=" "
+              v-model="conteudotable.directors"
+              remove-on-delete
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Prêmios</p>
+            <b-input
+              type="number"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+              v-model="conteudotable.awards.wins"
+            />
+            <b-input
+              type="text"
+              placeholder="indicações"
+              class="inputEdit shadow-none mb-2"
+              v-model="conteudotable.awards.nominations"
+            />
+            <b-input
+              type="text"
+              placeholder="text"
+              class="inputEdit shadow-none mb-2"
+              v-model="conteudotable.awards.text"
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Imdb</p>
+            <b-input
+              type="number"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+              v-model="conteudotable.imdb.rating"
+            />
+            <b-input
+              type="text"
+              placeholder="indicações"
+              class="inputEdit shadow-none mb-2"
+              v-model="conteudotable.imdb.votes"
+            />
+            <b-input
+              type="text"
+              placeholder="text"
+              class="inputEdit shadow-none mb-2"
+              v-model="conteudotable.imdb.id"
             />
           </b-form-group>
           <div class="d-flex justify-content-between btn-size">
@@ -174,10 +263,10 @@
         hide-header-close
         header-bg-variant="dark"
         header-text-variant="light"
-        title="Deletar Funcionário"
+        title="Excluir Filme"
         ref="modal-fechar"
       >
-        <b-card-text> Deseja excluir este usuário? </b-card-text>
+        <b-card-text> Deseja excluir este filme? </b-card-text>
         <div class="d-flex justify-content-between btn-size">
           <b-button @click.prevent="Deletar()" variant="outline-danger">
             Excluir
@@ -193,32 +282,121 @@
         hide-header-close
         header-text-variant="light"
         header-bg-variant="dark"
-        title="Criar Funcionário"
+        title="Adicionar Filme"
       >
         <b-form>
           <b-form-group class="InputPosition">
-            <p class="sub">Nome</p>
+            <p class="sub">Titulo</p>
             <b-input
               type="text"
               class="inputEdit shadow-none"
-              v-model="usuario.name"
+              v-model="filme.title"
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">Email</p>
+            <p class="sub">Descrição</p>
             <b-input
-              type="email"
-              id="email"
+              type="text"
               class="inputEdit shadow-none"
-              v-model="usuario.email"
+              v-model="filme.plot"
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">Senha</p>
+            <p class="sub">Data de Lançamento</p>
             <b-input
-              type="password"
+              type="number"
               class="inputEdit shadow-none"
-              v-model="usuario.password"
+              v-model="filme.year"
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Poster</p>
+            <b-input
+              type="text"
+              class="inputEdit shadow-none"
+              v-model="filme.poster"
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Genêros</p>
+            <b-form-tags
+              type="text"
+              class="inputEdit shadow-none"
+              v-model="filme.genres"
+              placeholder=" "
+              remove-on-delete
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Elenco</p>
+            <b-form-tags
+              type="text"
+              class="inputEdit shadow-none"
+              placeholder=" "
+              v-model="filme.cast"
+              remove-on-delete
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">País</p>
+            <b-form-tags
+              type="text"
+              class="inputEdit shadow-none"
+              placeholder=" "
+              v-model="filme.countries"
+              remove-on-delete
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Diretores</p>
+            <b-form-tags
+              type="text"
+              class="inputEdit shadow-none"
+              placeholder=" "
+              v-model="filme.directors"
+              remove-on-delete
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Prêmios</p>
+            <b-input
+              type="number"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+              v-model="filme.awards.wins"
+            />
+            <b-input
+              type="text"
+              placeholder="indicações"
+              class="inputEdit shadow-none mb-2"
+              v-model="filme.awards.nominations"
+            />
+            <b-input
+              type="text"
+              placeholder="text"
+              class="inputEdit shadow-none mb-2"
+              v-model="filme.awards.text"
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Imdb</p>
+            <b-input
+              type="number"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+              v-model="filme.imdb.rating"
+            />
+            <b-input
+              type="text"
+              placeholder="indicações"
+              class="inputEdit shadow-none mb-2"
+              v-model="filme.imdb.votes"
+            />
+            <b-input
+              type="text"
+              placeholder="text"
+              class="inputEdit shadow-none mb-2"
+              v-model="filme.imdb.id"
             />
           </b-form-group>
           <div class="d-flex justify-content-between btn-size">
@@ -237,7 +415,7 @@
         hide-header-close
         header-text-variant="light"
         header-bg-variant="dark"
-        title="Visualizar Filme"
+        title="Detalhes do Filme"
         size="lg"
       >
         <b-card no-body class="overflow-hidden teste">
@@ -275,9 +453,14 @@
                   </b-card-sub-title>
                 </b-card-text>
                 Rating:
-                <b-card-text class="d-flex genres">    
+                <b-card-text class="d-flex genres">
                   <b-card-sub-title>
-                     {{ conteudotable.imdb ? conteudotable.imdb.rating : 'Sem Avaliação' }} <b-icon icon="star" />
+                    {{
+                      conteudotable.imdb
+                        ? conteudotable.imdb.rating
+                        : "Sem Avaliação"
+                    }}
+                    <b-icon icon="star" />
                   </b-card-sub-title>
                 </b-card-text>
               </b-card-body>
@@ -335,7 +518,6 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
 </style>
 <script>
 import { http } from "../../services/api.js";
@@ -345,8 +527,30 @@ export default {
   data() {
     return {
       sessions: [],
-      usuario: {},
-      conteudotable: {},
+      filme: {
+        awards: {
+          wins: "",
+          nominations: "",
+          text: "",
+        },
+        imdb: {
+          rating: "",
+          votes: "",
+          id: "",
+        },
+      },
+      conteudotable: {
+        awards: {
+          wins: "",
+          nominations: "",
+          text: "",
+        },
+        imdb: {
+          rating: "",
+          votes: "",
+          id: "",
+        },
+      },
       perPage: 5,
       currentPage: 1,
       pageOptions: [3, 5, 10],
@@ -404,13 +608,13 @@ export default {
     },
     Editar() {
       this.$http
-        .patch(`/users/update/${this.conteudotable._id}`, this.conteudotable)
+        .patch(`/movies/update/${this.conteudotable._id}`, this.conteudotable)
         .then((response) => {
           this.$bvModal.hide("modal-login");
           this.usuarios = [];
           this.Lista();
         })
-        .catch((erro) => { });
+        .catch((erro) => {});
     },
     Deletar() {
       this.$http
@@ -424,14 +628,13 @@ export default {
     },
     async Cadastro() {
       this.$http
-        .post("/users/create", this.usuario)
+        .post("/movies/create", this.filme)
         .then((response) => {
           this.$bvModal.hide("modal-create");
           this.sessions = [];
           this.Lista();
-          this.sessions.name = null;
-          this.sessions.email = null;
-          this.sessions.password = null;
+          this.filme = "";
+          console.log(response);
         })
         .catch((erro) => console.log(erro));
     },

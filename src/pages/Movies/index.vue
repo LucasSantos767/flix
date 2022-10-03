@@ -11,7 +11,7 @@
         "
       >
         <p class="listagem">
-          <b-icon icon="person-bounding-box" />
+          <b-icon icon="camera-reels-fill" />
           Lista de Filmes
         </p>
         <b-form-select
@@ -130,11 +130,11 @@
         hide-header-close
         header-text-variant="light"
         header-bg-variant="dark"
-        title="Adicionar Filme"
+        title="Atualizar Filme"
       >
         <b-form>
           <b-form-group class="InputPosition">
-            <p class="sub">Titulo</p>
+            <p class="sub">Titulo:</p>
             <b-input
               type="text"
               class="inputEdit shadow-none"
@@ -142,7 +142,7 @@
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">Descrição</p>
+            <p class="sub">Resumo:</p>
             <b-input
               type="text"
               class="inputEdit shadow-none"
@@ -150,7 +150,15 @@
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">Data de Lançamento</p>
+            <p class="sub">Descrição Completa:</p>
+            <b-input
+              type="text"
+              class="inputEdit shadow-none"
+              v-model="conteudotable.fullplot"
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Ano de Lançamento:</p>
             <b-input
               type="number"
               class="inputEdit shadow-none"
@@ -158,7 +166,7 @@
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">Poster</p>
+            <p class="sub">Poster:</p>
             <b-input
               type="text"
               class="inputEdit shadow-none"
@@ -166,17 +174,17 @@
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">Genêros</p>
+            <p class="sub">Genêros:</p>
             <b-form-tags
               type="text"
               class="inputEdit shadow-none"
-              v-model="conteudotable.genres"
               placeholder=" "
+              v-model="conteudotable.genres"
               remove-on-delete
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">Elenco</p>
+            <p class="sub">Elenco:</p>
             <b-form-tags
               type="text"
               class="inputEdit shadow-none"
@@ -186,7 +194,27 @@
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">País</p>
+            <p class="sub">Avaliação:</p>
+            <b-input
+              type="text"
+              class="inputEdit shadow-none"
+              placeholder="Não Avalidado"
+              v-model="conteudotable.rated"
+              remove-on-delete
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Escritores:</p>
+            <b-form-tags
+              type="text"
+              class="inputEdit shadow-none"
+              placeholder=" "
+              v-model="conteudotable.writers"
+              remove-on-delete
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">País:</p>
             <b-form-tags
               type="text"
               class="inputEdit shadow-none"
@@ -196,7 +224,7 @@
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">Diretores</p>
+            <p class="sub">Diretores:</p>
             <b-form-tags
               type="text"
               class="inputEdit shadow-none"
@@ -206,7 +234,7 @@
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">Prêmios</p>
+            <p class="sub">Prêmios:</p>
             <b-input
               type="number"
               class="inputEdit shadow-none mb-2"
@@ -214,20 +242,20 @@
               v-model="conteudotable.awards.wins"
             />
             <b-input
-              type="text"
-              placeholder="indicações"
+              type="number"
+              placeholder="nominations"
               class="inputEdit shadow-none mb-2"
               v-model="conteudotable.awards.nominations"
             />
             <b-input
               type="text"
-              placeholder="text"
+              placeholder="2 nominations"
               class="inputEdit shadow-none mb-2"
               v-model="conteudotable.awards.text"
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">Imdb</p>
+            <p class="sub">Imdb:</p>
             <b-input
               type="number"
               class="inputEdit shadow-none mb-2"
@@ -235,23 +263,118 @@
               v-model="conteudotable.imdb.rating"
             />
             <b-input
-              type="text"
-              placeholder="indicações"
+              type="number"
+              placeholder="votos"
               class="inputEdit shadow-none mb-2"
               v-model="conteudotable.imdb.votes"
             />
             <b-input
-              type="text"
-              placeholder="text"
+              type="number"
+              placeholder="id"
               class="inputEdit shadow-none mb-2"
               v-model="conteudotable.imdb.id"
             />
           </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Tempo de Filme:</p>
+            <b-input
+              type="number"
+              class="inputEdit shadow-none mb-2"
+              placeholder="60"
+              v-model="conteudotable.runtime"
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Tipo:</p>
+            <b-input
+              type="text"
+              class="inputEdit shadow-none mb-2"
+              placeholder="Filme"
+              v-model="conteudotable.type"
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Rotten Tomatoes:</p>
+            Avaliação Espectadores
+            <b-input
+              type="number"
+              class="inputEdit shadow-none mb-2"
+              placeholder="80"
+              v-model="conteudotable.tomatoes.viewer.rating"
+            />
+            <b-input
+              type="number"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+              v-model="conteudotable.tomatoes.viewer.numReviews"
+            />
+            <b-input
+              type="number"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+              v-model="conteudotable.tomatoes.viewer.meter"
+            />
+            Criticos
+            <b-input
+              type="number"
+              class="inputEdit shadow-none mb-2"
+              placeholder="80"
+              v-model="conteudotable.tomatoes.critic.rating"
+            />
+            <b-input
+              type="number"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+               v-model="conteudotable.tomatoes.critic.numReviews"
+            />
+            <b-input
+              type="number"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+               v-model="conteudotable.tomatoes.critic.meter"
+            />
+            Consenso
+            <b-input
+              type="text"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+               v-model="conteudotable.tomatoes.consensus"
+            />
+            Rotten
+            <b-input
+              type="text"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+               v-model="conteudotable.tomatoes.rotten"
+            />
+            Produtora
+            <b-input
+              type="text"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+               v-model="conteudotable.tomatoes.production"
+            />
+            fresh
+            <b-input
+              type="text"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+               v-model="conteudotable.tomatoes.fresh"
+            />
+          </b-form-group>
           <div class="d-flex justify-content-between btn-size">
-            <b-button @click.prevent="Editar()" variant="outline-success">
+            <b-button
+              @click.prevent="Editar()"
+              variant="outline-success"
+              class="butao"
+            >
               Atualizar
             </b-button>
-            <b-button @click.prevent="hideModal()" variant="outline-danger">
+            <b-button
+              @click.prevent="hideModal()"
+              variant="outline-danger"
+              class="butao"
+            >
               Cancelar
             </b-button>
           </div>
@@ -287,7 +410,7 @@
       >
         <b-form>
           <b-form-group class="InputPosition">
-            <p class="sub">Titulo</p>
+            <p class="sub">Titulo:</p>
             <b-input
               type="text"
               class="inputEdit shadow-none"
@@ -295,7 +418,7 @@
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">Descrição</p>
+            <p class="sub">Resumo:</p>
             <b-input
               type="text"
               class="inputEdit shadow-none"
@@ -303,7 +426,15 @@
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">Data de Lançamento</p>
+            <p class="sub">Descrição Completa:</p>
+            <b-input
+              type="text"
+              class="inputEdit shadow-none"
+              v-model="filme.fullplot"
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Ano de Lançamento:</p>
             <b-input
               type="number"
               class="inputEdit shadow-none"
@@ -311,7 +442,7 @@
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">Poster</p>
+            <p class="sub">Poster:</p>
             <b-input
               type="text"
               class="inputEdit shadow-none"
@@ -319,7 +450,7 @@
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">Genêros</p>
+            <p class="sub">Genêros:</p>
             <b-form-tags
               type="text"
               class="inputEdit shadow-none"
@@ -329,7 +460,7 @@
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">Elenco</p>
+            <p class="sub">Elenco:</p>
             <b-form-tags
               type="text"
               class="inputEdit shadow-none"
@@ -339,7 +470,27 @@
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">País</p>
+            <p class="sub">Avaliação:</p>
+            <b-input
+              type="text"
+              class="inputEdit shadow-none"
+              placeholder="Não Avalidado"
+              v-model="filme.rated"
+              remove-on-delete
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Escritores:</p>
+            <b-form-tags
+              type="text"
+              class="inputEdit shadow-none"
+              placeholder=" "
+              v-model="filme.writers"
+              remove-on-delete
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">País:</p>
             <b-form-tags
               type="text"
               class="inputEdit shadow-none"
@@ -349,7 +500,7 @@
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">Diretores</p>
+            <p class="sub">Diretores:</p>
             <b-form-tags
               type="text"
               class="inputEdit shadow-none"
@@ -359,7 +510,7 @@
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">Prêmios</p>
+            <p class="sub">Prêmios:</p>
             <b-input
               type="number"
               class="inputEdit shadow-none mb-2"
@@ -367,20 +518,20 @@
               v-model="filme.awards.wins"
             />
             <b-input
-              type="text"
-              placeholder="indicações"
+              type="number"
+              placeholder="nominations"
               class="inputEdit shadow-none mb-2"
               v-model="filme.awards.nominations"
             />
             <b-input
               type="text"
-              placeholder="text"
+              placeholder="2 nominations"
               class="inputEdit shadow-none mb-2"
               v-model="filme.awards.text"
             />
           </b-form-group>
           <b-form-group class="InputPosition">
-            <p class="sub">Imdb</p>
+            <p class="sub">Imdb:</p>
             <b-input
               type="number"
               class="inputEdit shadow-none mb-2"
@@ -388,23 +539,118 @@
               v-model="filme.imdb.rating"
             />
             <b-input
-              type="text"
-              placeholder="indicações"
+              type="number"
+              placeholder="votos"
               class="inputEdit shadow-none mb-2"
               v-model="filme.imdb.votes"
             />
             <b-input
-              type="text"
-              placeholder="text"
+              type="number"
+              placeholder="id"
               class="inputEdit shadow-none mb-2"
               v-model="filme.imdb.id"
             />
           </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Tempo de Filme:</p>
+            <b-input
+              type="number"
+              class="inputEdit shadow-none mb-2"
+              placeholder="60"
+              v-model="filme.runtime"
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Tipo:</p>
+            <b-input
+              type="text"
+              class="inputEdit shadow-none mb-2"
+              placeholder="Filme"
+              v-model="filme.type"
+            />
+          </b-form-group>
+          <b-form-group class="InputPosition">
+            <p class="sub">Rotten Tomatoes:</p>
+            Avaliação Espectadores
+            <b-input
+              type="number"
+              class="inputEdit shadow-none mb-2"
+              placeholder="80"
+              v-model="filme.tomatoes.viewer.rating"
+            />
+            <b-input
+              type="number"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+              v-model="filme.tomatoes.viewer.numReviews"
+            />
+            <b-input
+              type="number"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+              v-model="filme.tomatoes.viewer.meter"
+            />
+            Criticos
+            <b-input
+              type="number"
+              class="inputEdit shadow-none mb-2"
+              placeholder="80"
+              v-model="filme.tomatoes.critic.rating"
+            />
+            <b-input
+              type="number"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+              v-model="filme.tomatoes.critic.numReviews"
+            />
+            <b-input
+              type="number"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+              v-model="filme.tomatoes.critic.meter"
+            />
+            Consenso
+            <b-input
+              type="text"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+              v-model="filme.tomatoes.consensus"
+            />
+            Rotten
+            <b-input
+              type="text"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+              v-model="filme.tomatoes.rotten"
+            />
+            Produtora
+            <b-input
+              type="text"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+              v-model="filme.tomatoes.production"
+            />
+            fresh
+            <b-input
+              type="text"
+              class="inputEdit shadow-none mb-2"
+              placeholder="vitórias"
+              v-model="filme.tomatoes.critic.fresh"
+            />
+          </b-form-group>
           <div class="d-flex justify-content-between btn-size">
-            <b-button @click.prevent="Cadastro()" variant="outline-success">
+            <b-button
+              @click.prevent="Cadastro()"
+              variant="outline-success"
+              class="butao"
+            >
               Criar
             </b-button>
-            <b-button @click.prevent="hideModal()" variant="outline-danger">
+            <b-button
+              @click.prevent="hideModal()"
+              variant="outline-danger"
+              class="butao"
+            >
               Cancelar
             </b-button>
           </div>
@@ -433,7 +679,7 @@
                 <b-card-title>{{ conteudotable.title }}</b-card-title>
                 <b-card-sub-title>{{ conteudotable.year }}</b-card-sub-title>
                 <b-card-text>
-                  {{ conteudotable.plot }}
+                  {{ conteudotable.fullplot }}
                 </b-card-text>
                 Genêros:
                 <b-card-text class="d-flex genres">
@@ -453,15 +699,24 @@
                     {{ item }}
                   </b-card-sub-title>
                 </b-card-text>
-                Rating:
+                Diretores:
+                <b-card-text class="d-flex genres">
+                  <b-card-sub-title
+                    v-for="(item, index) of conteudotable.directors"
+                    :key="index"
+                  >
+                    {{ item }}
+                  </b-card-sub-title>
+                </b-card-text>
+                Avaliação:
                 <b-card-text class="d-flex genres">
                   <b-card-sub-title>
                     {{
                       conteudotable.imdb
                         ? conteudotable.imdb.rating
                         : "Sem Avaliação"
-                    }}
-                    <b-icon icon="star" />
+                    }}/10
+                    <b-icon icon="star-fill" />
                   </b-card-sub-title>
                 </b-card-text>
               </b-card-body>
@@ -539,6 +794,22 @@ export default {
           votes: "",
           id: "",
         },
+        tomatoes: {
+          viewer: {
+            rating: "",
+            numReviews: "",
+            meter: "",
+          },
+          critic: {
+            rating: "",
+            numReviews: "",
+            meter: "",
+          },
+          consensus: "",
+          rotten: "",
+          production: "",
+          fresh: "",
+        },
       },
       conteudotable: {
         awards: {
@@ -550,6 +821,22 @@ export default {
           rating: "",
           votes: "",
           id: "",
+        },
+        tomatoes: {
+          viewer: {
+            rating: "",
+            numReviews: "",
+            meter: "",
+          },
+          critic: {
+            rating: "",
+            numReviews: "",
+            meter: "",
+          },
+          consensus: "",
+          rotten: "",
+          production: "",
+          fresh: "",
         },
       },
       perPage: 5,
@@ -566,7 +853,7 @@ export default {
         },
         {
           key: "plot",
-          label: "Descrição",
+          label: "Resumo",
           sortable: true,
           thClass: "text-center",
           tdClass: "text-center w-25",
@@ -634,7 +921,7 @@ export default {
           this.$bvModal.hide("modal-create");
           this.sessions = [];
           this.Lista();
-          this.filme = "";
+          this.resetModal();
           console.log(response);
         })
         .catch((erro) => console.log(erro));
@@ -657,8 +944,35 @@ export default {
       };
       this.$bvModal.show("modal-visualizar");
     },
-    resetModal(){
-      this.filme = {}
+    resetModal() {
+      this.filme = {
+        awards: {
+          wins: "",
+          nominations: "",
+          text: "",
+        },
+        imdb: {
+          rating: "",
+          votes: "",
+          id: "",
+        },
+        tomatoes: {
+          viewer: {
+            rating: "",
+            numReviews: "",
+            meter: "",
+          },
+          critic: {
+            rating: "",
+            numReviews: "",
+            meter: "",
+          },
+          consensus: "",
+          rotten: "",
+          production: "",
+          fresh: "",
+        },
+      };
     },
     ModalCreate(usuarios) {
       this.$bvModal.show("modal-create");

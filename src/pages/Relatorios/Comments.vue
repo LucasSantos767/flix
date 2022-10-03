@@ -1,6 +1,6 @@
 <template>
     <div class="divTable">
-        <h5 class="aaa">Relatórios de Comentários e Sessões</h5>
+        <h5>Relatórios de Comentários e Sessões  <b-icon icon="card-checklist" /></h5>
         <sessions/>
         <comentarios/>
     </div>

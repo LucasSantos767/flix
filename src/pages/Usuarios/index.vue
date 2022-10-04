@@ -244,6 +244,12 @@
 .infoTable {
   padding-bottom: 15px;
 }
+.butao {
+  height: 40px;
+  font-size: 15px;
+  left: 10px;
+  border: 2px solid #8888;
+}
 </style>
 <script>
 import { http } from "../../services/api.js";

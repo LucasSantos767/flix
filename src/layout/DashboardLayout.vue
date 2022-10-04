@@ -4,6 +4,10 @@
       <mobile-menu slot="content"></mobile-menu>
       <sidebar-link to="/admin/overview">
         <i class="nc-icon nc-chart-pie-35"></i>
+        <p>dashboard</p>
+      </sidebar-link>
+      <sidebar-link to="/admin/movies">
+        <i class="nc-icon nc-tv-2"></i>
         <p>Filmes</p>
       </sidebar-link>
       <sidebar-link to="/admin/user">

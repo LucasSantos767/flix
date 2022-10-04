@@ -53,7 +53,7 @@ export default {
   methods: {
     Login() {
       this.$store.dispatch('Login', this.usuario).then(()=>{
-        this.$router.push({ name: "Overview" })
+        this.$router.push({ name: "movies" })
       })
     },
   },

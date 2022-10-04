@@ -7,7 +7,7 @@ import Overview from 'src/pages/Overview.vue'
 import UserProfile from 'src/pages/UserProfile.vue'
 import Movies from 'src/pages/Movies/index.vue'
 import Usuarios from 'src/pages/Usuarios/index.vue'
-import TableList from 'src/pages/TableList.vue'
+import TableList from 'src/pages/Teatros/index.vue'
 import RelatoriosComments from 'src/pages/Relatorios/Comments.vue'
 import Icons from 'src/pages/Icons.vue'
 import Maps from 'src/pages/Maps.vue'
@@ -24,13 +24,8 @@ const routes = [
   {
     path: '/admin',
     component: DashboardLayout,
-    redirect: '/admin/overview',
+    redirect: '/admin/movies',
     children: [
-      {
-        path: 'overview',
-        name: 'Overview',
-        component: Overview
-      },
       {
         path: 'movies',
         name: 'movies',
@@ -61,16 +56,6 @@ const routes = [
         name: 'Maps',
         component: Maps
       },
-      {
-        path: 'notifications',
-        name: 'Notifications',
-        component: Notifications
-      },
-      {
-        path: 'upgrade',
-        name: 'Upgrade to PRO',
-        component: Upgrade
-      }
     ]
   },
   { path: '*', component: NotFound }

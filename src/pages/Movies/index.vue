@@ -32,7 +32,7 @@
       </div>
       <b-table
         :fields="filds"
-        :items="sessions"
+        :items="movies"
         :per-page="perPage"
         :current-page="currentPage"
         :filter="search"
@@ -293,75 +293,6 @@
               v-model="conteudotable.type"
             />
           </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Rotten Tomatoes:</p>
-            Avaliação Espectadores
-            <b-input
-              type="number"
-              class="inputEdit shadow-none mb-2"
-              placeholder="80"
-              v-model="conteudotable.tomatoes.viewer.rating"
-            />
-            <b-input
-              type="number"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-              v-model="conteudotable.tomatoes.viewer.numReviews"
-            />
-            <b-input
-              type="number"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-              v-model="conteudotable.tomatoes.viewer.meter"
-            />
-            Criticos
-            <b-input
-              type="number"
-              class="inputEdit shadow-none mb-2"
-              placeholder="80"
-              v-model="conteudotable.tomatoes.critic.rating"
-            />
-            <b-input
-              type="number"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-               v-model="conteudotable.tomatoes.critic.numReviews"
-            />
-            <b-input
-              type="number"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-               v-model="conteudotable.tomatoes.critic.meter"
-            />
-            Consenso
-            <b-input
-              type="text"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-               v-model="conteudotable.tomatoes.consensus"
-            />
-            Rotten
-            <b-input
-              type="text"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-               v-model="conteudotable.tomatoes.rotten"
-            />
-            Produtora
-            <b-input
-              type="text"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-               v-model="conteudotable.tomatoes.production"
-            />
-            fresh
-            <b-input
-              type="text"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-               v-model="conteudotable.tomatoes.fresh"
-            />
-          </b-form-group>
           <div class="d-flex justify-content-between btn-size">
             <b-button
               @click.prevent="Editar()"
@@ -569,75 +500,6 @@
               v-model="filme.type"
             />
           </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Rotten Tomatoes:</p>
-            Avaliação Espectadores
-            <b-input
-              type="number"
-              class="inputEdit shadow-none mb-2"
-              placeholder="80"
-              v-model="filme.tomatoes.viewer.rating"
-            />
-            <b-input
-              type="number"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-              v-model="filme.tomatoes.viewer.numReviews"
-            />
-            <b-input
-              type="number"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-              v-model="filme.tomatoes.viewer.meter"
-            />
-            Criticos
-            <b-input
-              type="number"
-              class="inputEdit shadow-none mb-2"
-              placeholder="80"
-              v-model="filme.tomatoes.critic.rating"
-            />
-            <b-input
-              type="number"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-              v-model="filme.tomatoes.critic.numReviews"
-            />
-            <b-input
-              type="number"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-              v-model="filme.tomatoes.critic.meter"
-            />
-            Consenso
-            <b-input
-              type="text"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-              v-model="filme.tomatoes.consensus"
-            />
-            Rotten
-            <b-input
-              type="text"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-              v-model="filme.tomatoes.rotten"
-            />
-            Produtora
-            <b-input
-              type="text"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-              v-model="filme.tomatoes.production"
-            />
-            fresh
-            <b-input
-              type="text"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-              v-model="filme.tomatoes.critic.fresh"
-            />
-          </b-form-group>
           <div class="d-flex justify-content-between btn-size">
             <b-button
               @click.prevent="Cadastro()"
@@ -782,7 +644,7 @@ import { BTable } from "bootstrap-vue";
 export default {
   data() {
     return {
-      sessions: [],
+      movies: [],
       filme: {
         awards: {
           wins: "",
@@ -882,7 +744,7 @@ export default {
   },
   computed: {
     totalrows() {
-      return this.sessions.length;
+      return this.movies.length;
     },
   },
   created() {
@@ -892,14 +754,14 @@ export default {
     async Lista() {
       await http
         .get("/movies/list")
-        .then((response) => (this.sessions = response.data));
+        .then((response) => (this.movies = response.data));
     },
     Editar() {
       this.$http
         .patch(`/movies/update/${this.conteudotable._id}`, this.conteudotable)
         .then((response) => {
           this.$bvModal.hide("modal-login");
-          this.usuarios = [];
+          this.movies = [];
           this.Lista();
         })
         .catch((erro) => {});
@@ -909,7 +771,7 @@ export default {
         .delete(`/movies/delete/${this.conteudotable._id}`)
         .then((response) => {
           this.$bvModal.hide("modal-danger");
-          this.sessions = [];
+          this.movies = [];
           this.Lista();
         })
         .catch((erro) => console.log(erro));
@@ -919,7 +781,7 @@ export default {
         .post("/movies/create", this.filme)
         .then((response) => {
           this.$bvModal.hide("modal-create");
-          this.sessions = [];
+          this.movies = [];
           this.Lista();
           this.resetModal();
           console.log(response);
@@ -932,15 +794,15 @@ export default {
       this.$bvModal.hide("modal-create");
       this.$bvModal.hide("modal-visualizar");
     },
-    ModalEdit(sessions) {
+    ModalEdit(movies) {
       this.conteudotable = {
-        ...sessions,
+        ...movies,
       };
       this.$bvModal.show("modal-login");
     },
-    ModalVisu(sessions) {
+    ModalVisu(movies) {
       this.conteudotable = {
-        ...sessions,
+        ...movies,
       };
       this.$bvModal.show("modal-visualizar");
     },
@@ -977,9 +839,9 @@ export default {
     ModalCreate(usuarios) {
       this.$bvModal.show("modal-create");
     },
-    ModalConfirm(sessions) {
+    ModalConfirm(movies) {
       this.conteudotable = {
-        ...sessions,
+        ...movies,
       };
       this.$bvModal.show("modal-danger");
     },

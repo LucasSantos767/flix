@@ -176,7 +176,7 @@
           </b-button>
         </div>
       </b-modal>
-      <b-
+      <b-modal
         @show="resetModal"
         id="modal-create"
         hide-footer
@@ -257,7 +257,7 @@
             </b-button>
           </div>
         </b-form>
-      </b->
+      </b-modal>
     </div>
   </div>
 </template>

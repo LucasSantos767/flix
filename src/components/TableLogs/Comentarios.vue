@@ -22,6 +22,7 @@
               v-model="perPage"
               :options="pageOptions"
               :clearable="false"
+              @change="handlePageSizeChange($event)"
               class="per-page-selector d-inline-block mx-50 input inputselect"
             />
             <b-form-input
@@ -33,10 +34,9 @@
           </div>
           <b-table
             :fields="filds"
-            :items="comments"
-            :per-page="perPage"
-            :current-page="currentPage"
+            :items="comments.results"
             :filter="search"
+            :busy.sync="isBusy"
             empty-text="Nenhum dado encontrado."
             empty-filtered-text="Nenhum dado encontrado."
             show-empty
@@ -67,6 +67,7 @@
             v-model="currentPage"
             :total-rows="totalrows"
             :per-page="perPage"
+            @change="handlePageChange"
             pills
             hide-goto-end-buttons
             first-number
@@ -98,6 +99,8 @@ export default {
       perPage: 5,
       currentPage: 1,
       pageOptions: [3, 5, 10],
+      count: 0,
+      isBusy: false,
       filds: [
         {
           key: "name",
@@ -125,17 +128,49 @@ export default {
   },
   computed: {
     totalrows() {
-      return this.comments.length;
+      return this.comments.count;
     },
   },
   created() {
     this.ListaSessions();
   },
   methods: {
+    getRequestParams(currentPage, perPage) {
+      let params = {};
+
+      if (currentPage) {
+        params["skip"] = currentPage - 1;
+      }
+
+      if (perPage) {
+        params["limit"] = perPage;
+      }
+
+      return params;
+    },
     async ListaSessions() {
-      await http
-        .get("/comments/list")
+      this.isBusy = true;
+      try {
+        const params = this.getRequestParams(this.currentPage, this.perPage);
+        const response = await http
+        .get("/comments/list",{params})
         .then((response) => (this.comments = response.data));
+        this.isBusy = false;
+        return response.data 
+      } catch (error) {
+        this.isBusy = false
+        return []
+      }
+      },
+      handlePageChange(value) {
+      this.currentPage = value;
+      this.ListaSessions();
+    },
+
+    handlePageSizeChange(event) {
+      this.perPage = event;
+      this.currentPage = 1;
+      this.ListaSessions();
     },
   },
 };

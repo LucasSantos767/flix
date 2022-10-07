@@ -18,6 +18,7 @@
           v-model="perPage"
           :options="pageOptions"
           :clearable="false"
+          @change="handlePageSizeChange($event)"
           class="per-page-selector d-inline-block mx-50 input inputselect"
         />
         <b-button @click.prevent="ModalCreate()" class="butao"
@@ -30,11 +31,11 @@
           placeholder="Pesquisar"
         />
       </div>
+  
       <b-table
         :fields="filds"
-        :items="movies"
-        :per-page="perPage"
-        :current-page="currentPage"
+        :items="movies.results"
+        :busy.sync="isBusy"
         :filter="search"
         empty-text="Nenhum dado encontrado."
         empty-filtered-text="Nenhum dado encontrado."
@@ -109,6 +110,7 @@
         v-model="currentPage"
         :total-rows="totalrows"
         :per-page="perPage"
+        @change="handlePageChange"
         pills
         hide-goto-end-buttons
         first-number
@@ -704,6 +706,8 @@ export default {
       perPage: 5,
       currentPage: 1,
       pageOptions: [3, 5, 10],
+      count: 0,
+      isBusy: false,
       search: null,
       filds: [
         {
@@ -744,25 +748,58 @@ export default {
   },
   computed: {
     totalrows() {
-      return this.movies.length;
+      return this.movies.count;
     },
   },
   created() {
     this.Lista();
   },
   methods: {
-    async Lista() {
-      await http
-        .get("/movies/list")
-        .then((response) => (this.movies = response.data));
+    getRequestParams(currentPage, perPage) {
+      let params = {};
+
+      if (currentPage) {
+        params["skip"] = currentPage - 1;
+      }
+
+      if (perPage) {
+        params["limit"] = perPage;
+      }
+
+      return params;
     },
+    async Lista() {
+      this.isBusy = true;
+      try {
+        const params = this.getRequestParams(this.currentPage, this.perPage);
+        const response = await http
+          .get("/movies/list", { params })
+          .then((response) => (this.movies = response.data));
+            this.isBusy = false;
+        return response.data;
+      } catch (error) {
+        this.isBusy = false;
+        return [];
+      }
+    },
+
+    handlePageChange(value) {
+      this.currentPage = value;
+      this.Lista();
+    },
+
+    handlePageSizeChange(event) {
+      this.perPage = event;
+      this.currentPage = 1;
+      this.Lista();
+    },
+
     Editar() {
       this.$http
         .patch(`/movies/update/${this.conteudotable._id}`, this.conteudotable)
         .then((response) => {
           this.$bvModal.hide("modal-login");
-          this.movies = [];
-          this.Lista();
+         
         })
         .catch((erro) => {});
     },

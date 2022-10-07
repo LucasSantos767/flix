@@ -18,6 +18,7 @@
           v-model="perPage"
           :options="pageOptions"
           :clearable="false"
+          @change="handlePageSizeChange($event)"
           class="per-page-selector d-inline-block mx-50 input inputselect"
         />
         <b-button @click.prevent="ModalCreate()" class="butao"
@@ -32,10 +33,9 @@
       </div>
       <b-table
         :fields="filds"
-        :items="teatros"
-        :per-page="perPage"
-        :current-page="currentPage"
+        :items="teatros.results"
         :filter="search"
+        :busy.sync="isBusy"
         empty-text="Nenhum dado encontrado."
         empty-filtered-text="Nenhum dado encontrado."
         show-empty
@@ -68,6 +68,7 @@
         v-model="currentPage"
         :total-rows="totalrows"
         :per-page="perPage"
+        @change="handlePageChange"
         pills
         hide-goto-end-buttons
         first-number
@@ -312,7 +313,7 @@ export default {
         theaterId: "",
         location: {
           address: {
-            street1: "",  
+            street1: "",
             city: "",
             state: "",
             zipcode: "",
@@ -341,6 +342,8 @@ export default {
       perPage: 5,
       currentPage: 1,
       pageOptions: [3, 5, 10],
+      count: 0,
+      isBusy: false,
       search: null,
       filds: [
         {
@@ -403,17 +406,49 @@ export default {
   },
   computed: {
     totalrows() {
-      return this.teatros.length;
+      return this.teatros.count;
     },
   },
   created() {
     this.Lista();
   },
   methods: {
+    getRequestParams(currentPage, perPage) {
+      let params = {};
+
+      if (currentPage) {
+        params["skip"] = currentPage - 1;
+      }
+
+      if (perPage) {
+        params["limit"] = perPage;
+      }
+
+      return params;
+    },
     async Lista() {
-      await http
-        .get("/theaters/list")
+       this.isBusy = true;
+       try{
+        const params = this.getRequestParams(this.currentPage, this.perPage);
+        const response = await http
+        .get("/theaters/list",{params})
         .then((response) => (this.teatros = response.data));
+        this.isBusy = false;
+        return response.data;
+       }catch(error){
+        this.isBusy = false
+        return [];
+       }
+    },
+     handlePageChange(value) {
+      this.currentPage = value;
+      this.Lista();
+    },
+
+    handlePageSizeChange(event) {
+      this.perPage = event;
+      this.currentPage = 1;
+      this.Lista();
     },
     Editar() {
       this.$http
@@ -478,7 +513,7 @@ export default {
         theaterId: "",
         location: {
           address: {
-            street1: "",  
+            street1: "",
             city: "",
             state: "",
             zipcode: "",
@@ -489,7 +524,7 @@ export default {
           },
         },
       };
-    }
+    },
   },
   component: {
     BTable,

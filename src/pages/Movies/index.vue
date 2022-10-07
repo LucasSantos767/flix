@@ -799,7 +799,8 @@ export default {
         .patch(`/movies/update/${this.conteudotable._id}`, this.conteudotable)
         .then((response) => {
           this.$bvModal.hide("modal-login");
-         
+          this.movies = [];
+          this.Lista();
         })
         .catch((erro) => {});
     },

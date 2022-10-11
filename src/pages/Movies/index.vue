@@ -346,6 +346,7 @@
             <p class="sub">Titulo:</p>
             <b-input
               type="text"
+              placeholder="Exemplo: Rio"
               class="inputEdit shadow-none"
               v-model="filme.title"
             />
@@ -354,6 +355,7 @@
             <p class="sub">Resumo:</p>
             <b-input
               type="text"
+              placeholder="Exemplo: Duas araras azuis perdias no Rio de Janeiro"
               class="inputEdit shadow-none"
               v-model="filme.plot"
             />
@@ -362,6 +364,7 @@
             <p class="sub">Descrição Completa:</p>
             <b-input
               type="text"
+              placeholder="Exemplo: Duas araras azuis perdias no Rio de Janeiro em uma aventura muito doida"
               class="inputEdit shadow-none"
               v-model="filme.fullplot"
             />
@@ -370,6 +373,7 @@
             <p class="sub">Ano de Lançamento:</p>
             <b-input
               type="number"
+              placeholder="Exemplo: 2011"
               class="inputEdit shadow-none"
               v-model="filme.year"
             />
@@ -378,6 +382,7 @@
             <p class="sub">Poster:</p>
             <b-input
               type="text"
+              placeholder="Url da imagem"
               class="inputEdit shadow-none"
               v-model="filme.poster"
             />
@@ -388,7 +393,7 @@
               type="text"
               class="inputEdit shadow-none"
               v-model="filme.genres"
-              placeholder=" "
+              placeholder="Exemplo: Aventura, Drama"
               remove-on-delete
             />
           </b-form-group>
@@ -397,7 +402,7 @@
             <b-form-tags
               type="text"
               class="inputEdit shadow-none"
-              placeholder=" "
+              placeholder="Exemplo: Jesse Eisenberg, Anne Hathaway"
               v-model="filme.cast"
               remove-on-delete
             />
@@ -417,7 +422,7 @@
             <b-form-tags
               type="text"
               class="inputEdit shadow-none"
-              placeholder=" "
+              placeholder="Exemplo: Carlos Saldanha"
               v-model="filme.writers"
               remove-on-delete
             />
@@ -427,7 +432,7 @@
             <b-form-tags
               type="text"
               class="inputEdit shadow-none"
-              placeholder=" "
+              placeholder="Exemplo: USA"
               v-model="filme.countries"
               remove-on-delete
             />
@@ -437,7 +442,7 @@
             <b-form-tags
               type="text"
               class="inputEdit shadow-none"
-              placeholder=" "
+              placeholder="Exemplo: Carlos Saldanha"
               v-model="filme.directors"
               remove-on-delete
             />
@@ -726,7 +731,7 @@ export default {
         },
         {
           key: "year",
-          label: "Data de Lançamento",
+          label: "Ano de Lançamento",
           sortable: true,
           thClass: "text-center",
           tdClass: "text-center",
@@ -794,25 +799,41 @@ export default {
       this.Lista();
     },
 
-    Editar() {
-      this.$http
+    async Editar() {
+      this.isBusy = true;
+      try {
+        const response = this.$http
         .patch(`/movies/update/${this.conteudotable._id}`, this.conteudotable)
         .then((response) => {
           this.$bvModal.hide("modal-login");
           this.movies = [];
           this.Lista();
         })
-        .catch((erro) => {});
+        this.isBusy = false;
+        return response.data  
+      } catch (error) {
+        this.isBusy = false;
+        return [];
+      }
+      
     },
-    Deletar() {
-      this.$http
+    async Deletar() {
+      this.isBusy = true;
+      try {
+        const response = this.$http
         .delete(`/movies/delete/${this.conteudotable._id}`)
         .then((response) => {
           this.$bvModal.hide("modal-danger");
           this.movies = [];
           this.Lista();
         })
-        .catch((erro) => console.log(erro));
+        this.isBusy = false;
+        return response.data
+      } catch (error) {
+        this.isBusy = false;
+        return [];
+      }
+      
     },
     async Cadastro() {
       this.$http

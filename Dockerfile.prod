@@ -1,0 +1,28 @@
+FROM node:16-alpine as build
+
+WORKDIR /home/app/flixtallos
+
+COPY package.*json ./
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+FROM node:16-alpine
+
+LABEL maintaner="front"
+
+WORKDIR /home/app/flixtallos
+
+COPY --from=build /home/app/flixtallos .
+COPY --from=build /home/app/flixtallos/node_modules ./node_modules
+
+RUN npm install -g serve
+
+USER node
+
+EXPOSE 8090
+
+ENTRYPOINT [ "serve", "-s", "dist", "-l", "8090" ]

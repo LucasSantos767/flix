@@ -19,9 +19,11 @@ import { BootstrapVue, IconsPlugin, BootstrapVueIcons
  } from 'bootstrap-vue'
 import store  from './store/index.js';
 import VueRouter from 'vue-router'
+import Toast from "vue-toastification";
 import App from './App.vue'
 // LightBootstrap plugin
 import LightBootstrap from './light-bootstrap-main'
+import "vue-toastification/dist/index.css";
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 // router setup
@@ -34,6 +36,7 @@ Vue.prototype.$http = http
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 Vue.use(VueRouter)
+Vue.use(Toast)
 Vue.use(LightBootstrap)
 
 // configure router

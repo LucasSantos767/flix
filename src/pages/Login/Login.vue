@@ -26,8 +26,9 @@
           </div>
         </div>
         <div class="butao pt-4">
-          <button type="submit" class="btn-login custom-class">Login <log-in-icon size="1.5x" class="custom-class"/></button>
-           
+          <button type="submit" class="btn-login custom-class">
+            Login <log-in-icon size="1.5x" class="custom-class" />
+          </button>
         </div>
       </form>
     </div>
@@ -39,7 +40,7 @@ import {
   MailIcon,
   LockIcon,
   ArrowRightIcon,
-  LogInIcon
+  LogInIcon,
 } from "vue-feather-icons";
 export default {
   data() {
@@ -52,9 +53,18 @@ export default {
   },
   methods: {
     Login() {
-      this.$store.dispatch('Login', this.usuario).then(()=>{
-        this.$router.push({ name: "movies" })
-      })
+        this.$store.dispatch("Login", this.usuario).then(() => {
+          this.$router.push({ name: "movies" });
+          this.$toast(`Login efetuado com sucesso`, {
+            type: "success",
+          });
+        }).catch((error)=>{
+          if (error.request.status == 401) {
+            this.$toast(`Email ou senha inválidos.`, {
+              type: "error",
+            });
+          }
+        })
     },
   },
   components: {
@@ -62,7 +72,7 @@ export default {
     MailIcon,
     LockIcon,
     ArrowRightIcon,
-    LogInIcon
+    LogInIcon,
   },
 };
 </script>
@@ -113,21 +123,21 @@ export default {
   width: 40%;
   margin-left: 29%;
 }
-.btn-login{
+.btn-login {
   width: 100%;
   color: white;
   background-color: rgb(22, 19, 19);
   border: 1.5px solid whitesmoke;
-  border-radius:10px ;
+  border-radius: 10px;
 }
-.btn-login:hover{
+.btn-login:hover {
   width: 100%;
   color: #000;
   background-color: #000;
   border-color: rgb(22, 19, 19);
-  border-radius:10px ;
+  border-radius: 10px;
 }
-.btn-login:hover{
+.btn-login:hover {
   background-color: whitesmoke;
 }
 .input {
@@ -151,5 +161,13 @@ export default {
 .loginInfo input[type="email"],
 input[type="password"] {
   padding-left: 50px;
+}
+@media screen and (max-width: 800px) {
+  .main{
+    background-image: none;
+  }
+  .backF{
+    width: 100%;
+  }
 }
 </style>

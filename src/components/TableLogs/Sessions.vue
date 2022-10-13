@@ -46,6 +46,7 @@
             borderless
             bordered
             hover
+            responsive
           >
             <template #head(user_id)="data">
               <span class="d-flex justify-content-center">{{

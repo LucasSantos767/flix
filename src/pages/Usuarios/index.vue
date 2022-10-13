@@ -45,6 +45,7 @@
         borderless
         bordered
         hover
+        responsive
       >
         <template #head(name)="data">
           <span class="d-flex justify-content-center">{{
@@ -138,10 +139,10 @@
             />
           </b-form-group>
           <div class="d-flex justify-content-between btn-size">
-            <b-button @click.prevent="Editar()" variant="outline-success">
+            <b-button @click.prevent="Editar()" variant="outline-success" class="butao">
               Atualizar
             </b-button>
-            <b-button @click.prevent="hideModal()" variant="outline-danger">
+            <b-button @click.prevent="hideModal()" variant="outline-danger" class="butao">
               Cancelar
             </b-button>
           </div>
@@ -158,10 +159,10 @@
       >
         <b-card-text> Deseja excluir este usuário? </b-card-text>
         <div class="d-flex justify-content-between btn-size">
-          <b-button @click.prevent="Deletar()" variant="outline-danger">
+          <b-button @click.prevent="Deletar()" variant="outline-danger" class="butao"> 
             Excluir
           </b-button>
-          <b-button @click.prevent="hideModal()" variant="outline-dark">
+          <b-button @click.prevent="hideModal()" variant="outline-dark" class="butao">
             Cancelar
           </b-button>
         </div>
@@ -180,6 +181,7 @@
             <b-input
               type="text"
               class="inputEdit shadow-none"
+              placeholder="Exemplo: Lucas"
               v-model="usuario.name"
             />
           </b-form-group>
@@ -188,6 +190,7 @@
             <b-input
               type="email"
               id="email"
+              placeholder="Exemplo: lucas@gmail.com"
               class="inputEdit shadow-none"
               v-model="usuario.email"
             />
@@ -196,15 +199,16 @@
             <p class="sub">Senha</p>
             <b-input
               type="password"
+              placeholder="Exemplo: lucasadmin01"
               class="inputEdit shadow-none"
               v-model="usuario.password"
             />
           </b-form-group>
           <div class="d-flex justify-content-between btn-size">
-            <b-button @click.prevent="Cadastro()" variant="outline-success">
+            <b-button @click.prevent="Cadastro()" variant="outline-success" class="butao">
               Criar
             </b-button>
-            <b-button @click.prevent="hideModal()" variant="outline-danger">
+            <b-button @click.prevent="hideModal()" variant="outline-danger" class="butao">
               Cancelar
             </b-button>
           </div>
@@ -352,6 +356,9 @@ export default {
           this.$bvModal.hide("modal-login");
           this.usuarios = [];
           this.Lista();
+           this.$toast(`Usuário editado com sucesso`, {
+            type: "success",
+          });
         })
         .catch((erro) => {
           if (erro.request.status == 500) {
@@ -368,6 +375,9 @@ export default {
           this.$bvModal.hide("modal-danger");
           this.usuarios = [];
           this.Lista();
+           this.$toast(`Usuário deletado com sucesso`, {
+            type: "info",
+          });
         })
         .catch((erro) => console.log(erro));
     },
@@ -381,6 +391,9 @@ export default {
           this.usuario.name = null;
           this.usuario.email = null;
           this.usuario.password = null;
+           this.$toast(`Usuário criado com sucesso`, {
+            type: "success",
+          });
         })
         .catch((erro) => console.log(erro));
     },

@@ -528,7 +528,6 @@
       <b-modal
         id="modal-visualizar"
         hide-footer
-        hide-header-close
         header-text-variant="light"
         header-bg-variant="dark"
         title="Detalhes do Filme"
@@ -808,6 +807,9 @@ export default {
           this.$bvModal.hide("modal-login");
           this.movies = [];
           this.Lista();
+          this.$toast(`Filme editado com sucesso`, {
+            type: "info",
+          });
         })
         this.isBusy = false;
         return response.data  
@@ -826,6 +828,9 @@ export default {
           this.$bvModal.hide("modal-danger");
           this.movies = [];
           this.Lista();
+          this.$toast(`Filme deletado com sucesso`, {
+            type: "info",
+          });
         })
         this.isBusy = false;
         return response.data
@@ -843,7 +848,9 @@ export default {
           this.movies = [];
           this.Lista();
           this.resetModal();
-          console.log(response);
+         this.$toast(`Filme cadastrado com sucesso`, {
+            type: "success",
+          });
         })
         .catch((erro) => console.log(erro));
     },

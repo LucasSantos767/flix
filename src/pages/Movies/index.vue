@@ -27,16 +27,16 @@
         <b-form-input
           debounce="600"
           v-model="search"
+          @change="searchBar()"
           class="pesquisa h-75 input shadow-none"
           placeholder="Pesquisar"
         />
       </div>
-  
+
       <b-table
         :fields="filds"
         :items="movies.results"
         :busy.sync="isBusy"
-        :filter="search"
         empty-text="Nenhum dado encontrado."
         empty-filtered-text="Nenhum dado encontrado."
         show-empty
@@ -332,7 +332,8 @@
           </b-button>
         </div>
       </b-modal>
-      <b-modal
+      <create-movies @recebendo="Cadastro"></create-movies>
+      <!-- <b-modal
         @show="resetModal"
         id="modal-create"
         hide-footer
@@ -524,75 +525,9 @@
             </b-button>
           </div>
         </b-form>
-      </b-modal>
-      <b-modal
-        id="modal-visualizar"
-        hide-footer
-        header-text-variant="light"
-        header-bg-variant="dark"
-        title="Detalhes do Filme"
-        size="lg"
-      >
-        <b-card no-body class="overflow-hidden teste">
-          <b-row no-gutters>
-            <b-col md="6">
-              <b-card-img
-                :src="conteudotable.poster"
-                alt="Image"
-                class="rounded-0"
-              ></b-card-img>
-            </b-col>
-            <b-col md="6">
-              <b-card-body>
-                <b-card-title>{{ conteudotable.title }}</b-card-title>
-                <b-card-sub-title>{{ conteudotable.year }}</b-card-sub-title>
-                <b-card-text>
-                  {{ conteudotable.fullplot }}
-                </b-card-text>
-                Genêros:
-                <b-card-text class="d-flex genres">
-                  <b-card-sub-title
-                    v-for="(item, index) of conteudotable.genres"
-                    :key="index"
-                  >
-                    {{ item }}
-                  </b-card-sub-title>
-                </b-card-text>
-                Elenco:
-                <b-card-text class="d-flex genres">
-                  <b-card-sub-title
-                    v-for="(item, index) of conteudotable.cast"
-                    :key="index"
-                  >
-                    {{ item }}
-                  </b-card-sub-title>
-                </b-card-text>
-                Diretores:
-                <b-card-text class="d-flex genres">
-                  <b-card-sub-title
-                    v-for="(item, index) of conteudotable.directors"
-                    :key="index"
-                  >
-                    {{ item }}
-                  </b-card-sub-title>
-                </b-card-text>
-                Avaliação:
-                <b-card-text class="d-flex genres">
-                  <b-card-sub-title>
-                    {{
-                      conteudotable.imdb
-                        ? conteudotable.imdb.rating
-                        : "Sem Avaliação"
-                    }}/10
-                    <b-icon icon="star-fill" />
-                  </b-card-sub-title>
-                </b-card-text>
-              </b-card-body>
-            </b-col>
-          </b-row>
-        </b-card>
-      </b-modal>
+      </b-modal> -->
     </div>
+    <view-movies :conteudotable="conteudotable"></view-movies>
   </div>
 </template>
 <style scoped>
@@ -647,38 +582,14 @@
 import { http } from "../../services/api.js";
 import { ArrowRightIcon, ArrowLeftIcon } from "vue-feather-icons";
 import { BTable } from "bootstrap-vue";
+import ViewMovies from "../../components/Modals/ViewMovies.vue";
+import CreateMovies from "../../components/Modals/CreateMovies.vue";
 export default {
+  components: { ViewMovies, CreateMovies },
   data() {
     return {
       movies: [],
-      filme: {
-        awards: {
-          wins: "",
-          nominations: "",
-          text: "",
-        },
-        imdb: {
-          rating: "",
-          votes: "",
-          id: "",
-        },
-        tomatoes: {
-          viewer: {
-            rating: "",
-            numReviews: "",
-            meter: "",
-          },
-          critic: {
-            rating: "",
-            numReviews: "",
-            meter: "",
-          },
-          consensus: "",
-          rotten: "",
-          production: "",
-          fresh: "",
-        },
-      },
+
       conteudotable: {
         awards: {
           wins: "",
@@ -712,7 +623,7 @@ export default {
       pageOptions: [3, 5, 10],
       count: 0,
       isBusy: false,
-      search: null,
+      search: "",
       filds: [
         {
           key: "title",
@@ -752,18 +663,17 @@ export default {
   },
   computed: {
     totalrows() {
-      return this.movies.count;
+      return this.movies.totalResponse;
     },
   },
-  created() {
+  mounted() {
     this.Lista();
   },
   methods: {
     getRequestParams(currentPage, perPage) {
       let params = {};
-
       if (currentPage) {
-        params["skip"] = currentPage - 1;
+        params["page"] = currentPage;
       }
 
       if (perPage) {
@@ -777,78 +687,123 @@ export default {
       try {
         const params = this.getRequestParams(this.currentPage, this.perPage);
         const response = await http
-          .get("/movies/list", { params })
+          .get(`/movies/list`, { params })
           .then((response) => (this.movies = response.data));
-            this.isBusy = false;
+        this.isBusy = false;
         return response.data;
       } catch (error) {
         this.isBusy = false;
         return [];
       }
     },
-
-    handlePageChange(value) {
-      this.currentPage = value;
-      this.Lista();
+    async GetTitle() {
+      this.isBusy = true;
+      try {
+        const params = this.getRequestParams(this.currentPage, this.perPage);
+        const response = await http
+          .get(`/movies/${this.search}`, { params })
+          .then((response) => (this.movies = response.data));
+        this.isBusy = false;
+        return response.data;
+      } catch (error) {
+        this.isBusy = false;
+        return [];
+      }
     },
-
+    async searchBar() {
+      if (this.search === "") {
+        this.Lista();
+      } else {
+        this.GetTitle();
+      }
+    },
+    handlePageChange(value) {
+      try {
+        this.currentPage = value;
+        if (this.search !== "") {
+          this.GetTitle();
+        } else {
+          this.Lista();
+        }
+      } catch (error) {
+        console.log(
+          "🚀 ~ file: index.vue ~ line 818 ~ handlePageChange ~ error",
+          error
+        );
+      }
+    },
     handlePageSizeChange(event) {
       this.perPage = event;
-      this.currentPage = 1;
-      this.Lista();
+
+      console.log(
+        "🚀 ~ file: index.vue ~ line 825 ~ handlePageSizeChange ~ currentPage",
+        this.currentPage
+      );
+      try {
+        if (this.search !== "") {
+          console.log("bbbbbbbbbbbbbb");
+          this.GetTitle();
+        } else {
+          console.log("aaaaaaaaaaaaaa");
+          this.Lista();
+        }
+      } catch (error) {
+        console.log(
+          "🚀 ~ file: index.vue ~ line 830 ~ handlePageSizeChange ~ error",
+          error
+        );
+      }
     },
 
     async Editar() {
       this.isBusy = true;
       try {
         const response = this.$http
-        .patch(`/movies/update/${this.conteudotable._id}`, this.conteudotable)
-        .then((response) => {
-          this.$bvModal.hide("modal-login");
-          this.movies = [];
-          this.Lista();
-          this.$toast(`Filme editado com sucesso`, {
-            type: "info",
+          .patch(`/movies/update/${this.conteudotable._id}`, this.conteudotable)
+          .then((response) => {
+            this.$bvModal.hide("modal-login");
+            this.movies = [];
+            this.Lista();
+            this.$toast(`Filme editado com sucesso`, {
+              type: "info",
+            });
           });
-        })
         this.isBusy = false;
-        return response.data  
+        return response.data;
       } catch (error) {
         this.isBusy = false;
         return [];
       }
-      
     },
     async Deletar() {
       this.isBusy = true;
       try {
         const response = this.$http
-        .delete(`/movies/delete/${this.conteudotable._id}`)
-        .then((response) => {
-          this.$bvModal.hide("modal-danger");
-          this.movies = [];
-          this.Lista();
-          this.$toast(`Filme deletado com sucesso`, {
-            type: "info",
+          .delete(`/movies/delete/${this.conteudotable._id}`)
+          .then(() => {
+            this.$bvModal.hide("modal-danger");
+            this.movies = [];
+            this.Lista();
+            this.$toast(`Filme deletado com sucesso`, {
+              type: "info",
+            });
           });
-        })
         this.isBusy = false;
-        return response.data
+        return response.data;
       } catch (error) {
         this.isBusy = false;
         return [];
       }
-      
     },
-    async Cadastro() {
+    async Cadastro(filme) {
       this.$http
-        .post("/movies/create", this.filme)
+        .post("/movies/create", filme)
         .then((response) => {
           this.$bvModal.hide("modal-create");
           this.movies = [];
           this.Lista();
           this.resetModal();
-         this.$toast(`Filme cadastrado com sucesso`, {
+          this.$toast(`Filme cadastrado com sucesso`, {
             type: "success",
           });
         })
@@ -872,36 +827,7 @@ export default {
       };
       this.$bvModal.show("modal-visualizar");
     },
-    resetModal() {
-      this.filme = {
-        awards: {
-          wins: "",
-          nominations: "",
-          text: "",
-        },
-        imdb: {
-          rating: "",
-          votes: "",
-          id: "",
-        },
-        tomatoes: {
-          viewer: {
-            rating: "",
-            numReviews: "",
-            meter: "",
-          },
-          critic: {
-            rating: "",
-            numReviews: "",
-            meter: "",
-          },
-          consensus: "",
-          rotten: "",
-          production: "",
-          fresh: "",
-        },
-      };
-    },
+
     ModalCreate(usuarios) {
       this.$bvModal.show("modal-create");
     },

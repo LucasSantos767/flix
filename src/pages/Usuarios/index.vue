@@ -27,6 +27,8 @@
         <b-form-input
           debounce="300"
           v-model="search"
+          @change="searchBar()"
+          @keypress.enter="searchBar()"
           class="pesquisa h-75 input shadow-none"
           placeholder="Pesquisar"
         />
@@ -34,7 +36,6 @@
       <b-table
         :fields="filds"
         :items="usuarios.results"
-        :filter="search"
         :busy.sync="isBusy"
         empty-text="Nenhum dado encontrado."
         empty-filtered-text="Nenhum dado encontrado."
@@ -139,10 +140,18 @@
             />
           </b-form-group>
           <div class="d-flex justify-content-between btn-size">
-            <b-button @click.prevent="Editar()" variant="outline-success" class="butao">
+            <b-button
+              @click.prevent="Editar()"
+              variant="outline-success"
+              class="butao"
+            >
               Atualizar
             </b-button>
-            <b-button @click.prevent="hideModal()" variant="outline-danger" class="butao">
+            <b-button
+              @click.prevent="hideModal()"
+              variant="outline-danger"
+              class="butao"
+            >
               Cancelar
             </b-button>
           </div>
@@ -159,10 +168,18 @@
       >
         <b-card-text> Deseja excluir este usuário? </b-card-text>
         <div class="d-flex justify-content-between btn-size">
-          <b-button @click.prevent="Deletar()" variant="outline-danger" class="butao"> 
+          <b-button
+            @click.prevent="Deletar()"
+            variant="outline-danger"
+            class="butao"
+          >
             Excluir
           </b-button>
-          <b-button @click.prevent="hideModal()" variant="outline-dark" class="butao">
+          <b-button
+            @click.prevent="hideModal()"
+            variant="outline-dark"
+            class="butao"
+          >
             Cancelar
           </b-button>
         </div>
@@ -205,10 +222,18 @@
             />
           </b-form-group>
           <div class="d-flex justify-content-between btn-size">
-            <b-button @click.prevent="Cadastro()" variant="outline-success" class="butao">
+            <b-button
+              @click.prevent="Cadastro()"
+              variant="outline-success"
+              class="butao"
+            >
               Criar
             </b-button>
-            <b-button @click.prevent="hideModal()" variant="outline-danger" class="butao">
+            <b-button
+              @click.prevent="hideModal()"
+              variant="outline-danger"
+              class="butao"
+            >
               Cancelar
             </b-button>
           </div>
@@ -271,7 +296,7 @@ export default {
       pageOptions: [3, 5, 10],
       count: 0,
       isBusy: false,
-      search: null,
+      search: "",
       filds: [
         {
           key: "_id",
@@ -305,10 +330,10 @@ export default {
   },
   computed: {
     totalrows() {
-      return this.usuarios.count;
+      return this.usuarios.totalResponse;
     },
   },
-  created() {
+  mounted() {
     this.Lista();
   },
   methods: {
@@ -316,7 +341,7 @@ export default {
       let params = {};
 
       if (currentPage) {
-        params["skip"] = currentPage - 1;
+        params["page"] = currentPage;
       }
 
       if (perPage) {
@@ -328,26 +353,65 @@ export default {
     async Lista() {
       this.isBusy = true;
       try {
-     const params = this.getRequestParams(this.currentPage, this.perPage);
-     const response = await http
-          .get("/users/list",{params})
+        const params = this.getRequestParams(this.currentPage, this.perPage);
+        const response = await http
+          .get("/users/list", { params })
           .then((response) => (this.usuarios = response.data));
-      this.isBusy = false
-      return response.data
+        this.isBusy = false;
+        return response.data;
       } catch (error) {
-        this.isBusy = false
-        return []
+        this.isBusy = false;
+        return [];
       }
     },
-     handlePageChange(value) {
-      this.currentPage = value;
-      this.Lista();
+    async GetName() {
+      this.isBusy = true;
+      try {
+        const params = this.getRequestParams(this.currentPage, this.perPage);
+        const response = await http
+          .get(`/users/${this.search}`, { params })
+          .then((response) => (this.usuarios = response.data));
+        this.isBusy = false;
+        return response.data;
+      } catch (error) {
+        this.isBusy = false;
+        return [];
+      }
+    },
+    async searchBar() {
+      if (this.search === "") {
+        this.Lista();
+      } else {
+        this.GetName();
+      }
+    },
+    handlePageChange(value) {
+      try {
+        this.currentPage = value;
+        if (this.search !== "") {
+          this.GetName();
+        } else {
+          this.Lista();
+        }
+      } catch (error) {
+        console.log(
+          "🚀 ~ file: index.vue ~ line 809 ~ handlePageChange ~ error",
+          error
+        );
+      }
     },
 
-    handlePageSizeChange(event) {
+    handlePageSizeChange(event, search) {
       this.perPage = event;
       this.currentPage = 1;
-      this.Lista();
+      try {
+        if (search !== "") {
+          this.GetName();
+        }else{
+  this.Lista();
+        }
+      } catch (error) {}
+    
     },
     Editar() {
       this.$http
@@ -356,7 +420,7 @@ export default {
           this.$bvModal.hide("modal-login");
           this.usuarios = [];
           this.Lista();
-           this.$toast(`Usuário editado com sucesso`, {
+          this.$toast(`Usuário editado com sucesso`, {
             type: "success",
           });
         })
@@ -375,7 +439,7 @@ export default {
           this.$bvModal.hide("modal-danger");
           this.usuarios = [];
           this.Lista();
-           this.$toast(`Usuário deletado com sucesso`, {
+          this.$toast(`Usuário deletado com sucesso`, {
             type: "info",
           });
         })
@@ -391,7 +455,7 @@ export default {
           this.usuario.name = null;
           this.usuario.email = null;
           this.usuario.password = null;
-           this.$toast(`Usuário criado com sucesso`, {
+          this.$toast(`Usuário criado com sucesso`, {
             type: "success",
           });
         })

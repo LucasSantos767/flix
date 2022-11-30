@@ -1,7 +1,7 @@
 import axios from "axios";
 import store from "@/store";
 export const http = axios.create({
-    baseURL: "https://kong.desenvolvimento.tallos.com.br/lu/",
+    baseURL: "http://localhost:3000/",
     headers: {
         'Accept': 'application/json',
         'Content': 'application/json'

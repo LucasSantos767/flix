@@ -1,15 +1,7 @@
 <template>
   <div>
     <div class="divTable">
-      <div
-        class="
-          d-flex
-          align-items-center
-          justify-content-start
-          mb-1 mb-md-0
-          infoTable
-        "
-      >
+      <div class="d-flex align-items-center justify-content-start mb-1 mb-md-0 infoTable">
         <p class="listagem">
           <b-icon icon="camera-reels-fill" />
           Lista de Filmes
@@ -32,7 +24,6 @@
           placeholder="Pesquisar"
         />
       </div>
-
       <b-table
         :fields="filds"
         :items="movies.results"
@@ -127,193 +118,6 @@
         </template>
       </b-pagination>
       <b-modal
-        id="modal-login"
-        hide-footer
-        hide-header-close
-        header-text-variant="light"
-        header-bg-variant="dark"
-        title="Atualizar Filme"
-      >
-        <b-form>
-          <b-form-group class="InputPosition">
-            <p class="sub">Titulo:</p>
-            <b-input
-              type="text"
-              class="inputEdit shadow-none"
-              v-model="conteudotable.title"
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Resumo:</p>
-            <b-input
-              type="text"
-              class="inputEdit shadow-none"
-              v-model="conteudotable.plot"
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Descrição Completa:</p>
-            <b-input
-              type="text"
-              class="inputEdit shadow-none"
-              v-model="conteudotable.fullplot"
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Ano de Lançamento:</p>
-            <b-input
-              type="number"
-              class="inputEdit shadow-none"
-              v-model="conteudotable.year"
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Poster:</p>
-            <b-input
-              type="text"
-              class="inputEdit shadow-none"
-              v-model="conteudotable.poster"
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Genêros:</p>
-            <b-form-tags
-              type="text"
-              class="inputEdit shadow-none"
-              placeholder=" "
-              v-model="conteudotable.genres"
-              remove-on-delete
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Elenco:</p>
-            <b-form-tags
-              type="text"
-              class="inputEdit shadow-none"
-              placeholder=" "
-              v-model="conteudotable.cast"
-              remove-on-delete
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Avaliação:</p>
-            <b-input
-              type="text"
-              class="inputEdit shadow-none"
-              placeholder="Não Avalidado"
-              v-model="conteudotable.rated"
-              remove-on-delete
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Escritores:</p>
-            <b-form-tags
-              type="text"
-              class="inputEdit shadow-none"
-              placeholder=" "
-              v-model="conteudotable.writers"
-              remove-on-delete
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">País:</p>
-            <b-form-tags
-              type="text"
-              class="inputEdit shadow-none"
-              placeholder=" "
-              v-model="conteudotable.countries"
-              remove-on-delete
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Diretores:</p>
-            <b-form-tags
-              type="text"
-              class="inputEdit shadow-none"
-              placeholder=" "
-              v-model="conteudotable.directors"
-              remove-on-delete
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Prêmios:</p>
-            <b-input
-              type="number"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-              v-model="conteudotable.awards.wins"
-            />
-            <b-input
-              type="number"
-              placeholder="nominations"
-              class="inputEdit shadow-none mb-2"
-              v-model="conteudotable.awards.nominations"
-            />
-            <b-input
-              type="text"
-              placeholder="2 nominations"
-              class="inputEdit shadow-none mb-2"
-              v-model="conteudotable.awards.text"
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Imdb:</p>
-            <b-input
-              type="number"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-              v-model="conteudotable.imdb.rating"
-            />
-            <b-input
-              type="number"
-              placeholder="votos"
-              class="inputEdit shadow-none mb-2"
-              v-model="conteudotable.imdb.votes"
-            />
-            <b-input
-              type="number"
-              placeholder="id"
-              class="inputEdit shadow-none mb-2"
-              v-model="conteudotable.imdb.id"
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Tempo de Filme:</p>
-            <b-input
-              type="number"
-              class="inputEdit shadow-none mb-2"
-              placeholder="60"
-              v-model="conteudotable.runtime"
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Tipo:</p>
-            <b-input
-              type="text"
-              class="inputEdit shadow-none mb-2"
-              placeholder="Filme"
-              v-model="conteudotable.type"
-            />
-          </b-form-group>
-          <div class="d-flex justify-content-between btn-size">
-            <b-button
-              @click.prevent="Editar()"
-              variant="outline-success"
-              class="butao"
-            >
-              Atualizar
-            </b-button>
-            <b-button
-              @click.prevent="hideModal()"
-              variant="outline-danger"
-              class="butao"
-            >
-              Cancelar
-            </b-button>
-          </div>
-        </b-form>
-      </b-modal>
-      <b-modal
         id="modal-danger"
         hide-footer
         hide-header-close
@@ -333,199 +137,11 @@
         </div>
       </b-modal>
       <create-movies @recebendo="Cadastro"></create-movies>
-      <!-- <b-modal
-        @show="resetModal"
-        id="modal-create"
-        hide-footer
-        hide-header-close
-        header-text-variant="light"
-        header-bg-variant="dark"
-        title="Adicionar Filme"
-      >
-        <b-form>
-          <b-form-group class="InputPosition">
-            <p class="sub">Titulo:</p>
-            <b-input
-              type="text"
-              placeholder="Exemplo: Rio"
-              class="inputEdit shadow-none"
-              v-model="filme.title"
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Resumo:</p>
-            <b-input
-              type="text"
-              placeholder="Exemplo: Duas araras azuis perdias no Rio de Janeiro"
-              class="inputEdit shadow-none"
-              v-model="filme.plot"
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Descrição Completa:</p>
-            <b-input
-              type="text"
-              placeholder="Exemplo: Duas araras azuis perdias no Rio de Janeiro em uma aventura muito doida"
-              class="inputEdit shadow-none"
-              v-model="filme.fullplot"
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Ano de Lançamento:</p>
-            <b-input
-              type="number"
-              placeholder="Exemplo: 2011"
-              class="inputEdit shadow-none"
-              v-model="filme.year"
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Poster:</p>
-            <b-input
-              type="text"
-              placeholder="Url da imagem"
-              class="inputEdit shadow-none"
-              v-model="filme.poster"
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Genêros:</p>
-            <b-form-tags
-              type="text"
-              class="inputEdit shadow-none"
-              v-model="filme.genres"
-              placeholder="Exemplo: Aventura, Drama"
-              remove-on-delete
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Elenco:</p>
-            <b-form-tags
-              type="text"
-              class="inputEdit shadow-none"
-              placeholder="Exemplo: Jesse Eisenberg, Anne Hathaway"
-              v-model="filme.cast"
-              remove-on-delete
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Avaliação:</p>
-            <b-input
-              type="text"
-              class="inputEdit shadow-none"
-              placeholder="Não Avalidado"
-              v-model="filme.rated"
-              remove-on-delete
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Escritores:</p>
-            <b-form-tags
-              type="text"
-              class="inputEdit shadow-none"
-              placeholder="Exemplo: Carlos Saldanha"
-              v-model="filme.writers"
-              remove-on-delete
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">País:</p>
-            <b-form-tags
-              type="text"
-              class="inputEdit shadow-none"
-              placeholder="Exemplo: USA"
-              v-model="filme.countries"
-              remove-on-delete
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Diretores:</p>
-            <b-form-tags
-              type="text"
-              class="inputEdit shadow-none"
-              placeholder="Exemplo: Carlos Saldanha"
-              v-model="filme.directors"
-              remove-on-delete
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Prêmios:</p>
-            <b-input
-              type="number"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-              v-model="filme.awards.wins"
-            />
-            <b-input
-              type="number"
-              placeholder="nominations"
-              class="inputEdit shadow-none mb-2"
-              v-model="filme.awards.nominations"
-            />
-            <b-input
-              type="text"
-              placeholder="2 nominations"
-              class="inputEdit shadow-none mb-2"
-              v-model="filme.awards.text"
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Imdb:</p>
-            <b-input
-              type="number"
-              class="inputEdit shadow-none mb-2"
-              placeholder="vitórias"
-              v-model="filme.imdb.rating"
-            />
-            <b-input
-              type="number"
-              placeholder="votos"
-              class="inputEdit shadow-none mb-2"
-              v-model="filme.imdb.votes"
-            />
-            <b-input
-              type="number"
-              placeholder="id"
-              class="inputEdit shadow-none mb-2"
-              v-model="filme.imdb.id"
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Tempo de Filme:</p>
-            <b-input
-              type="number"
-              class="inputEdit shadow-none mb-2"
-              placeholder="60"
-              v-model="filme.runtime"
-            />
-          </b-form-group>
-          <b-form-group class="InputPosition">
-            <p class="sub">Tipo:</p>
-            <b-input
-              type="text"
-              class="inputEdit shadow-none mb-2"
-              placeholder="Filme"
-              v-model="filme.type"
-            />
-          </b-form-group>
-          <div class="d-flex justify-content-between btn-size">
-            <b-button
-              @click.prevent="Cadastro()"
-              variant="outline-success"
-              class="butao"
-            >
-              Criar
-            </b-button>
-            <b-button
-              @click.prevent="hideModal()"
-              variant="outline-danger"
-              class="butao"
-            >
-              Cancelar
-            </b-button>
-          </div>
-        </b-form>
-      </b-modal> -->
+      <update-movies
+        @atualizando="Editar"
+        :conteudotable="conteudotable"
+        :fechar="hideModal"
+      ></update-movies>
     </div>
     <view-movies :conteudotable="conteudotable"></view-movies>
   </div>
@@ -580,16 +196,14 @@
 </style>
 <script>
 import { http } from "../../services/api.js";
-import { ArrowRightIcon, ArrowLeftIcon } from "vue-feather-icons";
-import { BTable } from "bootstrap-vue";
 import ViewMovies from "../../components/Modals/ViewMovies.vue";
 import CreateMovies from "../../components/Modals/CreateMovies.vue";
+import UpdateMovies from "../../components/Modals/UpdateMovies.vue";
 export default {
-  components: { ViewMovies, CreateMovies },
+  components: { ViewMovies, CreateMovies, UpdateMovies },
   data() {
     return {
       movies: [],
-
       conteudotable: {
         awards: {
           wins: "",
@@ -675,11 +289,9 @@ export default {
       if (currentPage) {
         params["page"] = currentPage;
       }
-
       if (perPage) {
         params["limit"] = perPage;
       }
-
       return params;
     },
     async Lista() {
@@ -725,42 +337,24 @@ export default {
         } else {
           this.Lista();
         }
-      } catch (error) {
-        console.log(
-          "🚀 ~ file: index.vue ~ line 818 ~ handlePageChange ~ error",
-          error
-        );
-      }
+      } catch (error) { }
     },
     handlePageSizeChange(event) {
       this.perPage = event;
-
-      console.log(
-        "🚀 ~ file: index.vue ~ line 825 ~ handlePageSizeChange ~ currentPage",
-        this.currentPage
-      );
       try {
         if (this.search !== "") {
-          console.log("bbbbbbbbbbbbbb");
           this.GetTitle();
         } else {
-          console.log("aaaaaaaaaaaaaa");
           this.Lista();
         }
-      } catch (error) {
-        console.log(
-          "🚀 ~ file: index.vue ~ line 830 ~ handlePageSizeChange ~ error",
-          error
-        );
-      }
+      } catch (error) { }
     },
-
-    async Editar() {
+    async Editar(conteudotable) {
       this.isBusy = true;
       try {
         const response = this.$http
-          .patch(`/movies/update/${this.conteudotable._id}`, this.conteudotable)
-          .then((response) => {
+          .patch(`/movies/update/${conteudotable._id}`, conteudotable)
+          .then(() => {
             this.$bvModal.hide("modal-login");
             this.movies = [];
             this.Lista();
@@ -837,11 +431,6 @@ export default {
       };
       this.$bvModal.show("modal-danger");
     },
-  },
-  component: {
-    BTable,
-    ArrowRightIcon,
-    ArrowLeftIcon,
   },
 };
 </script>
